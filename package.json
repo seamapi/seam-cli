@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "download-openapi": "curl https://connect.getseam.com/openapi.json -o ./lib/openapi.json",
-    "cli": "tsx ./cli.ts"
+    "cli": "tsx ./cli.ts",
+    "build": "tsup cli.ts"
   },
   "devDependencies": {
     "@types/configstore": "^6.0.2",
@@ -15,6 +16,7 @@
     "bun-types": "latest",
     "lodash": "^4.17.21",
     "swagger-parser": "^10.0.3",
+    "tsup": "^8.0.1",
     "tsx": "^4.6.2"
   },
   "peerDependencies": {

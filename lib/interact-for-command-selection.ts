@@ -17,7 +17,12 @@ function ergonomicSort(aStr: string, bStr: string) {
 export async function interactForCommandSelection(commandPath: string[]) {
   const commands = Object.keys((await getOpenApi()).paths!)
     .map((k) => k.replace(/_/g, "-").replace(/^\//, "").split("/"))
-    .concat([["login"], ["logout"], ["config", "reveal-location"]])
+    .concat([
+      ["login"],
+      ["logout"],
+      ["config", "reveal-location"],
+      ["select", "workspace"],
+    ])
 
   const possibleCommands = uniqBy(
     commandPath.length === 0

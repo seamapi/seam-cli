@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import isEqual from "lodash/isEqual"
 import { getCommandOpenApiDef } from "./lib/get-command-open-api-def"
 import { getConfigStore } from "./lib/get-config-store"
@@ -5,6 +6,7 @@ import { interactForCommandParams } from "./lib/interact-for-command-params"
 import { interactForCommandSelection } from "./lib/interact-for-command-selection"
 import parseArgs, { ParsedArgs } from "minimist"
 import { interactForLogin } from "./lib/interact-for-login"
+import { interactForWorkspaceId } from "./lib/interact-for-workspace-id"
 
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
@@ -24,6 +26,9 @@ async function cli(args: ParsedArgs) {
     return
   } else if (isEqual(selectedCommand, ["config", "reveal-location"])) {
     console.log(config.path)
+    return
+  } else if (isEqual(selectedCommand, ["select", "workspace"])) {
+    await interactForWorkspaceId()
     return
   }
 

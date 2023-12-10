@@ -6,6 +6,7 @@ export const getSeam = () => {
 
   return new SeamHttp({
     personalAccessToken: config.get("pat"),
+    // https://github.com/seamapi/javascript-http/issues/30
     workspaceId: config.get("current_workspace_id"),
   })
 }

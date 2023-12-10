@@ -38,6 +38,6 @@ seam locks unlock-door --device-id $MY_DOOR
 # Create an access code
 seam access-codes create --code "1234" --name "My Code"
 
-# List you access codes
-seam access-codes list --device-id $MY_DOOR
+# List your access codes
+seam access-codes list
 ```

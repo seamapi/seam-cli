@@ -7,17 +7,24 @@
     "cli": "tsx ./cli.ts"
   },
   "devDependencies": {
+    "@types/configstore": "^6.0.2",
     "@types/lodash": "^4.14.202",
+    "@types/minimist": "^1.2.5",
     "@types/openapi-v3": "^3.0.0",
     "@types/prompts": "^2.4.9",
     "bun-types": "latest",
     "lodash": "^4.17.21",
+    "swagger-parser": "^10.0.3",
     "tsx": "^4.6.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@seamapi/http": "^0.10.0",
+    "axios": "^1.6.2",
+    "configstore": "^6.0.0",
+    "minimist": "^1.2.8",
     "prompts": "^2.4.2"
   }
 }

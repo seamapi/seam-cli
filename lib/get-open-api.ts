@@ -1,6 +1,6 @@
-import type { OpenApi } from "openapi-v3"
 import seamOpenApi from "./openapi.json"
+import SwaggerParser from "swagger-parser"
 
-export const getOpenApi = (): OpenApi => {
-  return seamOpenApi as any
+export const getOpenApi = async () => {
+  return SwaggerParser.dereference(seamOpenApi as any)
 }

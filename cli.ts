@@ -1,25 +1,29 @@
 import prompts from "prompts"
 import { getOpenApi } from "./lib/get-open-api"
-import { deepEquals } from "bun"
-import { uniq, uniqBy } from "lodash"
+import uniqBy from "lodash/uniqBy"
+import isEqual from "lodash/isEqual"
 
 const commands = Object.keys(getOpenApi().paths).map((k) =>
   k.replace(/_/g, "-").replace(/^\//, "").split("/")
 )
 
 async function recursivelyInteractForCommand(commandPath: string[]) {
-  const openapi = getOpenApi()
   const possibleCommands = uniqBy(
     commandPath.length === 0
       ? commands
       : commands.filter((cmd) =>
-          deepEquals(cmd.slice(0, commandPath.length), commandPath)
+          isEqual(cmd.slice(0, commandPath.length), commandPath)
         ),
-    (v) => v[0]
+    (v) => v[commandPath.length]
   )
+
+  if (!possibleCommands) {
+    throw new Error("No possible commands")
+  }
+
   const res = await prompts({
     name: "Command",
-    type: "select",
+    type: "autocomplete",
     choices: [
       ...possibleCommands.map((cmd) => ({
         title: cmd[commandPath.length],
@@ -29,10 +33,14 @@ async function recursivelyInteractForCommand(commandPath: string[]) {
     message: "Select Command",
   })
 
+  if (!res?.Command) {
+    throw new Error("Bailed")
+  }
+
   const newCommandPath = [...commandPath, res.Command]
 
   const fullCommand = possibleCommands.find((cmd) =>
-    deepEquals(newCommandPath, cmd)
+    isEqual(newCommandPath, cmd)
   )
 
   if (!fullCommand) {
@@ -43,7 +51,9 @@ async function recursivelyInteractForCommand(commandPath: string[]) {
 }
 
 async function cli() {
-  recursivelyInteractForCommand([])
+  console.log(await recursivelyInteractForCommand([]))
 }
 
-cli()
+cli().catch((e) => {
+  console.log("CLI Error", e.toString())
+})

@@ -3,14 +3,16 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "download-openapi": "curl https://connect.getseam.com/openapi.json -o ./lib/openapi.json"
+    "download-openapi": "curl https://connect.getseam.com/openapi.json -o ./lib/openapi.json",
+    "cli": "tsx ./cli.ts"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
     "@types/openapi-v3": "^3.0.0",
     "@types/prompts": "^2.4.9",
     "bun-types": "latest",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "tsx": "^4.6.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

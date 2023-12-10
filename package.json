@@ -2,10 +2,20 @@
   "name": "seam-cli",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "download-openapi": "curl https://connect.getseam.com/openapi.json -o ./lib/openapi.json"
+  },
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/lodash": "^4.14.202",
+    "@types/openapi-v3": "^3.0.0",
+    "@types/prompts": "^2.4.9",
+    "bun-types": "latest",
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "prompts": "^2.4.2"
   }
 }

@@ -21,6 +21,12 @@ seam login
 # Select your workspace
 seam select workspace
 
+# Interactively select commands to execute
+seam
+
+# Create a connect webview to connect devices
+seam connect-webviews create
+
 # List devices in your workspace
 seam devices list
 

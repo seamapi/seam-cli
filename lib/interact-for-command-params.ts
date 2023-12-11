@@ -145,10 +145,25 @@ export const interactForCommandParams = async (
         ...currentParams,
         [paramToEdit]: value,
       })
+    } else if (prop.type === "array") {
+      const value = (
+        await prompts({
+          name: "value",
+          message: `${paramToEdit}:`,
+          type: "multiselect",
+          choices: (prop as any).items.enum.map((v: string) => ({
+            title: v.toString(),
+            value: v.toString(),
+          })),
+        })
+      ).value
+      return interactForCommandParams(cmd, {
+        ...currentParams,
+        [paramToEdit]: value,
+      })
     }
   }
 
-  console.log(prop)
   throw new Error(
     `Didn't know how to handle OpenAPI schema for property: "${paramToEdit}"`
   )

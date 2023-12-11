@@ -7,7 +7,7 @@
   "scripts": {
     "download-openapi": "curl https://connect.getseam.com/openapi.json -o ./lib/openapi.json",
     "cli": "tsx ./cli.ts",
-    "build": "tsup --",
+    "build": "tsup",
     "build:binaries": "pkg ./cli.ts"
   },
   "bin": {

@@ -22,6 +22,8 @@ export const interactForCommandParams = async (
   const requestBody = ((await getCommandOpenApiDef(cmd)).post as any)
     ?.requestBody
 
+  if (!requestBody) return ""
+
   if ("$ref" in requestBody) {
     throw new Error(
       "Issue parsing OpenAPI https://github.com/seamapi/experimental-seam-cli/issues/1"

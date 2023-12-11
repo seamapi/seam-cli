@@ -32,7 +32,6 @@ export async function interactForCommandSelection(commandPath: string[]) {
         ),
     (v) => v[commandPath.length]
   )
-
   if (possibleCommands.length === 0) {
     throw new Error("No possible commands")
   }
@@ -43,21 +42,29 @@ export async function interactForCommandSelection(commandPath: string[]) {
   ) {
     return commandPath
   }
+  const commandPathStr = commandPath.join("/").replace(/-/g, "_")
 
   const res = await prompts({
     name: "Command",
     type: "autocomplete",
     choices: [
       ...possibleCommands.map((cmd) => ({
-        title: cmd[commandPath.length],
-        value: cmd[commandPath.length],
+        title:
+          cmd?.[commandPath.length] ?? `[Call /${commandPathStr} Directly]`,
+        value: cmd?.[commandPath.length] ?? "<none>",
       })),
     ].sort((a, b) => ergonomicSort(a.value, b.value)),
-    message: `Select a command: ${commandPath.join("/").replace(/-/g, "_")}`,
+    message: `Select a command: /${commandPathStr}`,
   })
 
-  if (!res?.Command) {
+  console.log(res)
+
+  if (res?.Command === undefined) {
     throw new Error("Bailed")
+  }
+
+  if (res?.Command === "<none>") {
+    return commandPath
   }
 
   const newCommandPath = [...commandPath, res.Command]

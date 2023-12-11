@@ -8,6 +8,12 @@ A command line for interacting with [the Seam API](https://seam.co)
 curl #... TODO
 ```
 
+or for npm uses
+
+```bash
+npm install -g seam-cli
+```
+
 ## Usage
 
 Every `seam` command is interactive and will prompt you for any missing

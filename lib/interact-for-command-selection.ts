@@ -53,7 +53,7 @@ export async function interactForCommandSelection(commandPath: string[]) {
         value: cmd[commandPath.length],
       })),
     ].sort((a, b) => ergonomicSort(a.value, b.value)),
-    message: "Select Command",
+    message: `Select a command: ${commandPath.join("/").replace(/-/g, "_")}`,
   })
 
   if (!res?.Command) {

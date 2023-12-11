@@ -25,6 +25,7 @@
   "dependencies": {
     "@seamapi/http": "^0.10.0",
     "axios": "^1.6.2",
+    "chalk": "^5.3.0",
     "configstore": "^6.0.0",
     "minimist": "^1.2.8",
     "prompts": "^2.4.2"

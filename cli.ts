@@ -7,6 +7,8 @@ import { interactForCommandSelection } from "./lib/interact-for-command-selectio
 import parseArgs, { ParsedArgs } from "minimist"
 import { interactForLogin } from "./lib/interact-for-login"
 import { interactForWorkspaceId } from "./lib/interact-for-workspace-id"
+import { getSeam } from "./lib/get-seam"
+import chalk from "chalk"
 
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
@@ -33,6 +35,25 @@ async function cli(args: ParsedArgs) {
   }
 
   const params = await interactForCommandParams(selectedCommand)
+  const seam = await getSeam()
+
+  const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`
+
+  console.log(`\n\n${chalk.green(apiPath)}`)
+  console.log(`Request Params:`)
+  console.log(params)
+
+  const response = await seam.client.post(apiPath, params, {
+    validateStatus: () => true,
+  })
+
+  if (response.status >= 400) {
+    console.log(chalk.red(`\n\n[${response.status}]\n`))
+  } else {
+    console.log(chalk.green(`\n\n[${response.status}]`))
+  }
+  console.log(response.data)
+  console.log("\n")
 }
 
 cli(parseArgs(process.argv.slice(2))).catch((e) => {

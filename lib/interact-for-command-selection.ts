@@ -57,8 +57,6 @@ export async function interactForCommandSelection(commandPath: string[]) {
     message: `Select a command: /${commandPathStr}`,
   })
 
-  console.log(res)
-
   if (res?.Command === undefined) {
     throw new Error("Bailed")
   }

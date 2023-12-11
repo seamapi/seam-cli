@@ -19,11 +19,13 @@ async function cli(args: ParsedArgs) {
   }
 
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))
+  const commandParams: any = {}
   for (const k in args) {
     if (k === "_") continue
     const v = args[k]
     delete args[k]
     args[k.replace(/-/g, "_")] = v
+    commandParams[k.replace(/-/g, "_")] = v
   }
 
   const selectedCommand = await interactForCommandSelection(args._)
@@ -42,7 +44,7 @@ async function cli(args: ParsedArgs) {
     return
   }
 
-  const params = await interactForCommandParams(selectedCommand)
+  const params = await interactForCommandParams(selectedCommand, commandParams)
   const seam = await getSeam()
 
   const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`

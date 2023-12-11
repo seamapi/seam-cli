@@ -18,6 +18,14 @@ async function cli(args: ParsedArgs) {
     process.exit(1)
   }
 
+  args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))
+  for (const k in args) {
+    if (k === "_") continue
+    const v = args[k]
+    delete args[k]
+    args[k.replace(/-/g, "_")] = v
+  }
+
   const selectedCommand = await interactForCommandSelection(args._)
   if (isEqual(selectedCommand, ["login"])) {
     await interactForLogin()
@@ -57,5 +65,5 @@ async function cli(args: ParsedArgs) {
 }
 
 cli(parseArgs(process.argv.slice(2))).catch((e) => {
-  console.log("CLI Error", e.toString())
+  console.log(chalk.red(`CLI Error: ${e.toString()}\n`))
 })

@@ -46,10 +46,10 @@ export const interactForCommandParams = async (
   }
 
   const cmdPath = `/${cmd.join("/").replace(/-/g, "_")}`
-
+  console.log("")
   const { paramToEdit } = await prompts({
     name: "paramToEdit",
-    message: `${cmdPath}`,
+    message: `[${cmdPath}] Parameters`,
     type: "autocomplete",
     choices: [
       ...(haveAllRequiredParams

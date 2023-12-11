@@ -118,7 +118,7 @@ export const deepFlattenAllOfSchema = (
           ])
           .filter(([, v]) => v)
       ),
-    }
+    } as any
   }
 
   return undefined

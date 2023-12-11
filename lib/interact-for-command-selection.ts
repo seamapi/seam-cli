@@ -33,7 +33,7 @@ export async function interactForCommandSelection(commandPath: string[]) {
     (v) => v[commandPath.length]
   )
 
-  if (!possibleCommands) {
+  if (possibleCommands.length === 0) {
     throw new Error("No possible commands")
   }
 

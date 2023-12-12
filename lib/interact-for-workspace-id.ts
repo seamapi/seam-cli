@@ -9,36 +9,29 @@ export const interactForWorkspaceId = async () => {
   // const seam = await getSeam()
   // const workspaces = await seam.workspaces.list()
   // https://github.com/seamapi/javascript-http/issues/30
-
-  // https://github.com/seamapi/seam-connect/pull/5053
-  // const {
-  //   data: { workspaces },
-  // } = await axios
-  //   .get("https://connect.getseam.com/workspaces/list", {
-  //     headers: {
-  //       Authorization: `Bearer ${getConfigStore().get("pat")}`,
-  //     },
-  //   })
-  //   .catch((e) => {
-  //     console.log(e?.response?.data)
-  //     throw e
-  //   })
-
-  // const { workspaceId } = await prompts({
-  //   name: "workspaceId",
-  //   type: "select",
-  //   message: "Select a workspace:",
-  //   choices: workspaces.map((workspace: any) => ({
-  //     title: workspace.name,
-  //     value: workspace.workspace_id,
-  //     description: workspace.workspace_id,
-  //   })),
-  // })
+  
+  const {
+    data: { workspaces },
+  } = await axios
+    .get("https://connect.getseam.com/workspaces/list", {
+      headers: {
+        Authorization: `Bearer ${getConfigStore().get("pat")}`,
+      },
+    })
+    .catch((e) => {
+      console.log(e?.response?.data)
+      throw e
+    })
 
   const { workspaceId } = await prompts({
     name: "workspaceId",
-    type: "text",
-    message: "Enter a workspace_id:",
+    type: "select",
+    message: "Select a workspace:",
+    choices: workspaces.map((workspace: any) => ({
+      title: workspace.name,
+      value: workspace.workspace_id,
+      description: workspace.workspace_id,
+    })),
   })
 
   if (workspaceId) {

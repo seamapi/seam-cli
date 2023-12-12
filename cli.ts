@@ -62,7 +62,7 @@ async function cli(args: ParsedArgs) {
   } else {
     console.log(chalk.green(`\n\n[${response.status}]`))
   }
-  console.log(response.data)
+  console.dir(response.data, { depth: null})
   console.log("\n")
 }
 

@@ -9,6 +9,7 @@ import { interactForLogin } from "./lib/interact-for-login"
 import { interactForWorkspaceId } from "./lib/interact-for-workspace-id"
 import { getSeam } from "./lib/get-seam"
 import chalk from "chalk"
+import { interactForServerSelection } from "./lib/interact-for-server-selection"
 
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
@@ -41,6 +42,10 @@ async function cli(args: ParsedArgs) {
     return
   } else if (isEqual(selectedCommand, ["select", "workspace"])) {
     await interactForWorkspaceId()
+    return
+  }
+  else if (isEqual(selectedCommand, ["select", "server"])) {
+    await interactForServerSelection()
     return
   }
 

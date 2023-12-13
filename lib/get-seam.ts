@@ -5,6 +5,7 @@ export const getSeam = () => {
   const config = getConfigStore()
 
   return new SeamHttp({
+    endpoint: config.get("server") ?? "https://connect.getseam.com",
     personalAccessToken: config.get("pat"),
     // https://github.com/seamapi/javascript-http/issues/30
     workspaceId: config.get("current_workspace_id"),

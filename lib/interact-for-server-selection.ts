@@ -2,7 +2,7 @@ import prompts from "prompts"
 import { getConfigStore } from './get-config-store';
 
 export async function interactForServerSelection() {
-  const servers = ["localhost:3020", "https://connect.getseam.com"]
+  const servers = ["http://localhost:3020", "https://connect.getseam.com"]
 
   const { server } = await prompts([
     {

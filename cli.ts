@@ -43,8 +43,7 @@ async function cli(args: ParsedArgs) {
   } else if (isEqual(selectedCommand, ["select", "workspace"])) {
     await interactForWorkspaceId()
     return
-  }
-  else if (isEqual(selectedCommand, ["select", "server"])) {
+  } else if (isEqual(selectedCommand, ["select", "server"])) {
     await interactForServerSelection()
     return
   }
@@ -67,7 +66,7 @@ async function cli(args: ParsedArgs) {
   } else {
     console.log(chalk.green(`\n\n[${response.status}]`))
   }
-  console.dir(response.data, { depth: null})
+  console.dir(response.data, { depth: null })
   console.log("\n")
 }
 

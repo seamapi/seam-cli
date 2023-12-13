@@ -1,0 +1,50 @@
+---
+name: Semantic Release
+
+run-name: Semantic Release from ${{ github.ref_name }}
+
+on:
+  push:
+    branches:
+      # - "**"
+      - "TODO: Enable once version 1.0.0 is released."
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  semantic:
+    name: Determine version
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      new_release_published: ${{ steps.release.outputs.new_release_published }}
+      new_release_version: ${{ steps.release.outputs.new_release_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Semantic release
+        id: release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: true
+  release:
+    name: Release version
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: semantic
+    if: ${{ needs.semantic.outputs.new_release_published == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Release version ${{ steps.release.outputs.new_release_version }} on ${{ github.ref_name }}
+        run: gh workflow run version.yml --raw-field version=$VERSION --ref $BRANCH
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          VERSION: ${{ needs.semantic.outputs.new_release_version }}
+          BRANCH: ${{ github.ref_name }}

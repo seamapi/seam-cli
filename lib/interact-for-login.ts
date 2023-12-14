@@ -21,7 +21,7 @@ export const interactForLogin = async () => {
 
   config.set(`${getServer()}.pat`, pat)
 
-  console.log(`PAT saved! You may not begin using the CLI!`)
+  console.log(`PAT saved! You may begin using the CLI!`)
 
   await getCurrentWorkspaceId()
 }

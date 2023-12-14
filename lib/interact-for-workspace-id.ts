@@ -16,7 +16,7 @@ export const interactForWorkspaceId = async () => {
   } = await axios
     .get(`${getServer()}/workspaces/list`, {
       headers: {
-        Authorization: `Bearer ${getConfigStore().get("pat")}`,
+        Authorization: `Bearer ${getConfigStore().get(`${getServer()}.pat`)}`,
       },
     })
     .catch((e) => {

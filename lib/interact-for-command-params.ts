@@ -6,6 +6,10 @@ import { interactForAccessCode } from "./interact-for-access-code"
 import { interactForConnectedAccount } from "./interact-for-connected-account"
 import { flattenObjSchema } from "./openapi/flatten-obj-schema"
 import { interactForTimestamp } from "./interact-for-timestamp"
+import { interactForUserIdentity } from "./interact-for-user-identity"
+import { interactForAcsSystem } from "./interact-for-acs-system"
+import { interactForAcsUser } from "./interact-for-acs-user"
+import { interactForCredentialPool } from "./interact-for-credential-pool"
 
 const ergonomicPropOrder = [
   "name",
@@ -97,7 +101,37 @@ export const interactForCommandParams = async (
       ...currentParams,
       connected_account_id,
     })
-  } else if (paramToEdit.endsWith("_at")) {
+  } else if (paramToEdit === "user_identity_id") {
+    const user_identity_id = await interactForUserIdentity()
+    return interactForCommandParams(cmd, {
+      ...currentParams,
+      user_identity_id,
+    })
+  } else if (paramToEdit.endsWith("acs_system_id")) {
+    const acs_system_id = await interactForAcsSystem()
+    return interactForCommandParams(cmd, {
+      ...currentParams,
+      [paramToEdit]: acs_system_id,
+    })
+  } else if (paramToEdit.endsWith("credential_pool_id")) {
+    const credential_pool_id = await interactForCredentialPool()
+    return interactForCommandParams(cmd, {
+      ...currentParams,
+      [paramToEdit]: credential_pool_id,
+    })
+  } else if (paramToEdit.endsWith("acs_user_id")) {
+    const acs_user_id = await interactForAcsUser()
+    return interactForCommandParams(cmd, {
+      ...currentParams,
+      [paramToEdit]: acs_user_id,
+    })
+  } else if (
+    // TODO replace when openapi returns if a field is a timestamp
+    paramToEdit.endsWith("_at") ||
+    paramToEdit === "since" ||
+    paramToEdit.endsWith("_before") ||
+    paramToEdit.endsWith("_after")
+  ) {
     const tsval = await interactForTimestamp()
     return interactForCommandParams(cmd, {
       ...currentParams,

@@ -48,10 +48,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -123,10 +122,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -204,10 +202,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -286,10 +283,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -338,10 +334,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -440,10 +435,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -494,10 +488,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -542,10 +535,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -619,10 +611,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -698,10 +689,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -1859,59 +1849,6 @@
         ],
         "tags": ["/connected_accounts"],
         "operationId": "connectedAccountsListGet"
-      }
-    },
-    "/connected_accounts/update": {
-      "post": {
-        "x-fern-sdk-group-name": ["connected_accounts"],
-        "x-fern-sdk-method-name": "update",
-        "x-fern-sdk-return-value": "connected_account",
-        "summary": "/connected_accounts/update",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "connected_account": {
-                      "$ref": "#/components/schemas/connected_account"
-                    },
-                    "ok": { "type": "boolean" }
-                  },
-                  "required": ["connected_account", "ok"]
-                }
-              }
-            }
-          },
-          "400": { "description": "Bad Request" },
-          "401": { "description": "Unauthorized" }
-        },
-        "security": [
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "connected_account_id": {
-                    "type": "string",
-                    "format": "uuid"
-                  },
-                  "automatically_manage_new_devices": { "type": "boolean" }
-                },
-                "required": ["connected_account_id"]
-              }
-            }
-          }
-        },
-        "tags": ["/connected_accounts"],
-        "operationId": "connectedAccountsUpdatePost"
       }
     },
     "/devices/delete": {
@@ -4573,10 +4510,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "api_key": [] },
-          { "user_session": [] },
-          { "client_session": [] },
-          { "pat_with_workspace": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "tags": ["/workspaces"],
         "operationId": "workspacesGetPost"
@@ -4604,10 +4540,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "api_key": [] },
-          { "user_session": [] },
-          { "client_session": [] },
-          { "pat_with_workspace": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "tags": ["/workspaces"],
         "operationId": "workspacesGetGet"
@@ -4642,12 +4577,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "pat_with_workspace": [] },
-          { "pat_without_workspace": [] },
-          { "user_session": [] },
-          { "user_session_without_workspace": [] },
-          { "api_key": [] },
-          { "client_session": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "tags": ["/workspaces"],
         "operationId": "workspacesListPost"
@@ -4678,12 +4610,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "pat_with_workspace": [] },
-          { "pat_without_workspace": [] },
-          { "user_session": [] },
-          { "user_session_without_workspace": [] },
-          { "api_key": [] },
-          { "client_session": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "tags": ["/workspaces"],
         "operationId": "workspacesListGet"
@@ -4751,10 +4680,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -4801,10 +4729,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -4847,10 +4774,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -4901,10 +4827,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -4952,10 +4877,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -5006,10 +4930,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -5051,10 +4974,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -5096,10 +5018,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -5144,10 +5065,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -5186,10 +5106,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -5236,10 +5155,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -5337,10 +5255,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] },
-          { "api_key": [] }
+          { "seam_workspace": [], "access_token": [] },
+          { "seam_client_session_token": [] },
+          { "client_session_token": [] }
         ],
         "requestBody": {
           "content": {
@@ -6520,51 +6437,6 @@
         },
         "tags": [],
         "operationId": "acsEntrancesGetPost"
-      }
-    },
-    "/acs/entrances/grant_access": {
-      "post": {
-        "x-fern-sdk-group-name": ["acs", "entrances"],
-        "x-fern-sdk-method-name": "grant_access",
-        "summary": "/acs/entrances/grant_access",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": { "ok": { "type": "boolean" } },
-                  "required": ["ok"]
-                }
-              }
-            }
-          },
-          "400": { "description": "Bad Request" },
-          "401": { "description": "Unauthorized" }
-        },
-        "security": [
-          { "api_key": [] },
-          { "client_session": [] },
-          { "pat_with_workspace": [] },
-          { "console_session": [] }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "acs_entrance_id": { "type": "string", "format": "uuid" },
-                  "acs_user_id": { "type": "string", "format": "uuid" }
-                },
-                "required": ["acs_entrance_id", "acs_user_id"]
-              }
-            }
-          }
-        },
-        "tags": [],
-        "operationId": "acsEntrancesGrantAccessPost"
       }
     },
     "/acs/entrances/list": {
@@ -8520,11 +8392,6 @@
         "scheme": "bearer",
         "bearerFormat": "User Session Token"
       },
-      "user_session_without_workspace": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "User Session Token"
-      },
       "console_session": {
         "type": "http",
         "scheme": "bearer",
@@ -8832,10 +8699,6 @@
           "schedule_starts_at": { "type": "string" },
           "schedule_ends_at": { "type": "string" },
           "created_at": { "type": "string", "format": "date-time" },
-          "errors": {
-            "description": "Collection of errors associated with the access code, structured in a dictionary format. A unique \"error_code\" keys each error. Each error entry is an object containing two fields: \"message\" and \"created_at.\" \"message\" is a string that describes the error. \"created_at\" is a date that indicates when the error was generated. This structure enables detailed tracking and timely response to critical issues.",
-            "nullable": true
-          },
           "automatic_heating_enabled": { "type": "boolean" },
           "automatic_cooling_enabled": { "type": "boolean" },
           "hvac_mode_setting": {
@@ -8966,13 +8829,9 @@
               ],
               "nullable": true
             }
-          },
-          "automatically_manage_new_devices": { "type": "boolean" }
+          }
         },
-        "required": [
-          "account_type_display_name",
-          "automatically_manage_new_devices"
-        ]
+        "required": ["account_type_display_name"]
       },
       "device": {
         "type": "object",
@@ -9703,10 +9562,6 @@
                                 "type": "string",
                                 "format": "date-time"
                               },
-                              "errors": {
-                                "description": "Collection of errors associated with the access code, structured in a dictionary format. A unique \"error_code\" keys each error. Each error entry is an object containing two fields: \"message\" and \"created_at.\" \"message\" is a string that describes the error. \"created_at\" is a date that indicates when the error was generated. This structure enables detailed tracking and timely response to critical issues.",
-                                "nullable": true
-                              },
                               "automatic_heating_enabled": {
                                 "type": "boolean"
                               },
@@ -9879,10 +9734,6 @@
                                 "type": "string",
                                 "format": "date-time"
                               },
-                              "errors": {
-                                "description": "Collection of errors associated with the access code, structured in a dictionary format. A unique \"error_code\" keys each error. Each error entry is an object containing two fields: \"message\" and \"created_at.\" \"message\" is a string that describes the error. \"created_at\" is a date that indicates when the error was generated. This structure enables detailed tracking and timely response to critical issues.",
-                                "nullable": true
-                              },
                               "automatic_heating_enabled": {
                                 "type": "boolean"
                               },
@@ -10040,10 +9891,6 @@
                               "created_at": {
                                 "type": "string",
                                 "format": "date-time"
-                              },
-                              "errors": {
-                                "description": "Collection of errors associated with the access code, structured in a dictionary format. A unique \"error_code\" keys each error. Each error entry is an object containing two fields: \"message\" and \"created_at.\" \"message\" is a string that describes the error. \"created_at\" is a date that indicates when the error was generated. This structure enables detailed tracking and timely response to critical issues.",
-                                "nullable": true
                               },
                               "automatic_heating_enabled": {
                                 "type": "boolean"
@@ -10273,26 +10120,18 @@
           "properties": {
             "type": "object",
             "properties": {
-              "name": {
-                "type": "string",
-                "description": "Name of the device. Enables administrators and users to identify the device easily, especially when there are numerous devices."
-              },
-              "online": {
-                "type": "boolean",
-                "description": "Indicates whether the device is online."
-              },
-              "manufacturer": {
-                "type": "string",
-                "description": "Manufacturer of the device."
-              },
-              "image_url": {
-                "type": "string",
-                "format": "uri",
-                "description": "Image URL for the device."
-              },
-              "image_alt_text": {
-                "type": "string",
-                "description": "Alt text for the device image."
+              "name": { "type": "string" },
+              "online": { "type": "boolean" },
+              "manufacturer": { "type": "string" },
+              "image_url": { "type": "string" },
+              "image_alt_text": { "type": "string" },
+              "model": {
+                "type": "object",
+                "properties": {
+                  "display_name": { "type": "string" },
+                  "manufacturer_display_name": { "type": "string" }
+                },
+                "required": ["display_name", "manufacturer_display_name"]
               },
               "battery_level": {
                 "type": "number",
@@ -10300,51 +10139,9 @@
                 "maximum": 1,
                 "description": "Indicates the battery level of the device as a decimal value between 0 and 1, inclusive."
               },
-              "battery": {
-                "type": "object",
-                "properties": {
-                  "level": { "type": "number", "minimum": 0, "maximum": 1 },
-                  "status": {
-                    "type": "string",
-                    "enum": ["critical", "low", "good", "full"]
-                  }
-                },
-                "required": ["level", "status"],
-                "description": "Represents the current status of the battery charge level. Values are \"critical,\" which indicates an extremely low level, suggesting imminent shutdown or an urgent need for charging; \"low,\" which signifies that the battery is under the preferred threshold and should be charged soon; \"good,\" which denotes a satisfactory charge level, adequate for normal use without the immediate need for recharging; and \"full,\" which represents a battery that is fully charged, providing the maximum duration of usage."
-              },
               "online_access_codes_enabled": {
                 "type": "boolean",
                 "description": "Indicates whether it is currently possible to use online access codes for the device."
-              },
-              "offline_access_codes_enabled": {
-                "type": "boolean",
-                "description": "Indicates whether it is currently possible to use offline access codes for the device."
-              },
-              "model": {
-                "type": "object",
-                "properties": {
-                  "display_name": {
-                    "type": "string",
-                    "description": "Display name of the device model."
-                  },
-                  "manufacturer_display_name": {
-                    "type": "string",
-                    "description": "Display name that corresponds to the manufacturer-specific terminology for the device."
-                  },
-                  "offline_access_codes_supported": {
-                    "type": "boolean",
-                    "description": "Indicates whether the device supports offline access codes."
-                  },
-                  "online_access_codes_supported": {
-                    "type": "boolean",
-                    "description": "Indicates whether the device supports online access codes."
-                  },
-                  "accessory_keypad_supported": {
-                    "type": "boolean",
-                    "description": "Indicates whether the device supports an accessory keypad."
-                  }
-                },
-                "required": ["display_name", "manufacturer_display_name"]
               }
             },
             "required": ["name", "online", "model"]
@@ -10569,7 +10366,7 @@
           "display_name": { "type": "string" },
           "external_type": {
             "type": "string",
-            "enum": ["pti_user", "brivo_user", "hid_cm_user", "salto_site_user"]
+            "enum": ["pti_user", "brivo_user", "hid_cm_user"]
           },
           "external_type_display_name": { "type": "string" },
           "is_suspended": { "type": "boolean" },

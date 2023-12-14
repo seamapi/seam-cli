@@ -1,8 +1,7 @@
 import { getConfigStore } from "./get-config-store"
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
-import axios from "redaxios"
-import { getServer } from "./get-server"
+import axios from "axios"
 
 export const interactForWorkspaceId = async () => {
   const config = getConfigStore()
@@ -10,13 +9,13 @@ export const interactForWorkspaceId = async () => {
   // const seam = await getSeam()
   // const workspaces = await seam.workspaces.list()
   // https://github.com/seamapi/javascript-http/issues/30
-
+  
   const {
     data: { workspaces },
   } = await axios
-    .get(`${getServer()}/workspaces/list`, {
+    .get("https://connect.getseam.com/workspaces/list", {
       headers: {
-        Authorization: `Bearer ${getConfigStore().get(`${getServer()}.pat`)}`,
+        Authorization: `Bearer ${getConfigStore().get("pat")}`,
       },
     })
     .catch((e) => {

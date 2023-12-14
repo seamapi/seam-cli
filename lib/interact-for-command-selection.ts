@@ -22,7 +22,6 @@ export async function interactForCommandSelection(commandPath: string[]) {
       ["logout"],
       ["config", "reveal-location"],
       ["select", "workspace"],
-      ["select", "server"],
     ])
 
   const possibleCommands = uniqBy(

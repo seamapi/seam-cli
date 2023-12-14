@@ -11,6 +11,8 @@ import { getSeam } from "./lib/get-seam"
 import chalk from "chalk"
 import { interactForServerSelection } from "./lib/interact-for-server-selection"
 import { getServer } from "./lib/get-server"
+import prompts from "prompts"
+import { pollActionAttemptUntilReady } from "./lib/poll-action-attempt-until-ready"
 
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
@@ -66,6 +68,23 @@ async function cli(args: ParsedArgs) {
     validateStatus: () => true,
   })
 
+  if ("action_attempt" in response.data) {
+    const { poll_for_action_attempt } = await prompts({
+      name: "poll_for_action_attempt",
+      message: "Would you like to poll the action attempt until it's ready?",
+      type: "toggle",
+      initial: true,
+      active: "yes",
+      inactive: "no",
+    })
+
+    if (poll_for_action_attempt) {
+      response.data.action_attempt = await pollActionAttemptUntilReady(
+        response.data.action_attempt.action_attempt_id
+      )
+    }
+  }
+
   if (response.status >= 400) {
     console.log(chalk.red(`\n\n[${response.status}]\n`))
   } else {
@@ -76,5 +95,6 @@ async function cli(args: ParsedArgs) {
 }
 
 cli(parseArgs(process.argv.slice(2))).catch((e) => {
+  // TODO: handle http errors
   console.log(chalk.red(`CLI Error: ${e.toString()}\n${e.stack}`))
 })

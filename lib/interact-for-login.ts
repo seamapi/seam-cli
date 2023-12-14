@@ -1,6 +1,7 @@
 import prompts from "prompts"
 import { getConfigStore } from "./get-config-store"
 import { getCurrentWorkspaceId } from "./get-current-workspace-id"
+import { getServer } from "./get-server"
 
 export const interactForLogin = async () => {
   const config = await getConfigStore()
@@ -18,7 +19,7 @@ export const interactForLogin = async () => {
     throw new Error("No PAT provided")
   }
 
-  config.set("pat", pat)
+  config.set(`${getServer()}.pat`, pat)
 
   console.log(`PAT saved! You may not begin using the CLI!`)
 

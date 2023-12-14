@@ -10,11 +10,16 @@ import { interactForWorkspaceId } from "./lib/interact-for-workspace-id"
 import { getSeam } from "./lib/get-seam"
 import chalk from "chalk"
 import { interactForServerSelection } from "./lib/interact-for-server-selection"
+import { getServer } from "./lib/get-server"
 
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
 
-  if (!config.get("pat") && args._[0] !== "login") {
+  if (
+    !config.get(`${getServer()}.pat`) &&
+    args._[0] !== "login" &&
+    !isEqual(args._, ["select", "server"])
+  ) {
     console.log(`Not logged in. Please run "seam login"`)
     process.exit(1)
   }

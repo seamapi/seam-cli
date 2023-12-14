@@ -9,6 +9,8 @@ import { interactForLogin } from "./lib/interact-for-login"
 import { interactForWorkspaceId } from "./lib/interact-for-workspace-id"
 import { getSeam } from "./lib/get-seam"
 import chalk from "chalk"
+import { interactForServerSelection } from "./lib/interact-for-server-selection"
+import { getServer } from "./lib/get-server"
 import commandLineUsage from "command-line-usage"
 
 const sections = [
@@ -46,7 +48,11 @@ const sections = [
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
 
-  if (!config.get("pat") && args._[0] !== "login") {
+  if (
+    !config.get(`${getServer()}.pat`) &&
+    args._[0] !== "login" &&
+    !isEqual(args._, ["select", "server"])
+  ) {
     console.log(`Not logged in. Please run "seam login"`)
     process.exit(1)
   }
@@ -81,6 +87,9 @@ async function cli(args: ParsedArgs) {
   } else if (isEqual(selectedCommand, ["select", "workspace"])) {
     await interactForWorkspaceId()
     return
+  } else if (isEqual(selectedCommand, ["select", "server"])) {
+    await interactForServerSelection()
+    return
   }
 
   const params = await interactForCommandParams(selectedCommand, commandParams)
@@ -107,4 +116,7 @@ async function cli(args: ParsedArgs) {
 
 cli(parseArgs(process.argv.slice(2))).catch((e) => {
   console.log(chalk.red(`CLI Error: ${e.toString()}\n${e.stack}`))
+  if (e.toString().includes("object Object")) {
+    console.log(e)
+  }
 })

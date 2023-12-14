@@ -2,13 +2,15 @@
   "name": "seam-cli",
   "module": "index.ts",
   "type": "module",
-  "version": "0.0.7",
+  "version": "0.0.11",
   "repository": "git@github.com:seamapi/seam-cli.git",
   "scripts": {
     "download-openapi": "curl https://connect.getseam.com/openapi.json -o ./lib/openapi.json",
     "cli": "tsx ./cli.ts",
     "build": "tsup",
-    "build:binaries": "pkg ./cli.ts"
+    "postbuild": "ncc build ./dist/cli.cjs -o ./bin && mv ./bin/index.cjs ./bin/seam.cjs",
+    "build:binaries": "pkg --out-path bin ./bin/seam.cjs",
+    "build:binaries:mac": "pkg --out-path bin -t node18-macos-arm64 ./bin/seam.cjs"
   },
   "bin": {
     "seam": "./dist/cli.cjs"
@@ -17,7 +19,10 @@
     "entry": [
       "cli.ts"
     ],
-    "format": "cjs",
+    "format": [
+      "cjs",
+      "esm"
+    ],
     "sourcemap": true
   },
   "devDependencies": {
@@ -28,6 +33,7 @@
     "@types/minimist": "^1.2.5",
     "@types/openapi-v3": "^3.0.0",
     "@types/prompts": "^2.4.9",
+    "@vercel/ncc": "^0.38.1",
     "bun-types": "latest",
     "chalk": "^5.3.0",
     "command-line-usage": "^7.0.1",
@@ -44,7 +50,7 @@
   },
   "dependencies": {
     "@seamapi/http": "^0.10.0",
-    "axios": "^1.6.2",
+    "redaxios": "^0.5.1",
     "swagger-parser": "^10.0.3"
   }
 }

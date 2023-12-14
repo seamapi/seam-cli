@@ -8,7 +8,8 @@
     "download-openapi": "curl https://connect.getseam.com/openapi.json -o ./lib/openapi.json",
     "cli": "tsx ./cli.ts",
     "build": "tsup",
-    "build:binaries": "pkg ./cli.ts"
+    "build:binaries": "pkg --out-path bin ./dist/cli.cjs",
+    "build:binaries:mac": "pkg --out-path bin -t node18-macos-arm64 ./dist/cli.cjs"
   },
   "bin": {
     "seam": "./dist/cli.cjs"
@@ -42,7 +43,7 @@
   },
   "dependencies": {
     "@seamapi/http": "^0.10.0",
-    "axios": "^1.6.2",
+    "redaxios": "^0.5.1",
     "swagger-parser": "^10.0.3"
   }
 }

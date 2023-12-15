@@ -20,8 +20,7 @@
       "cli.ts"
     ],
     "format": [
-      "cjs",
-      "esm"
+      "cjs"
     ],
     "sourcemap": true
   },

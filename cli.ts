@@ -12,7 +12,8 @@ import chalk from "chalk"
 import { interactForServerSelection } from "./lib/interact-for-server-selection"
 import { getServer } from "./lib/get-server"
 import prompts from "prompts"
-import { pollActionAttemptUntilReady } from "./lib/poll-action-attempt-until-ready"
+import { pollActionAttemptUntilReady } from "./lib/util/poll-action-attempt-until-ready"
+import logResponse from "./lib/util/log-response"
 
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
@@ -87,6 +88,8 @@ async function cli(args: ParsedArgs) {
     validateStatus: () => true,
   })
 
+  logResponse(response)
+
   if ("action_attempt" in response.data) {
     const { poll_for_action_attempt } = await prompts({
       name: "poll_for_action_attempt",
@@ -98,23 +101,14 @@ async function cli(args: ParsedArgs) {
     })
 
     if (poll_for_action_attempt) {
-      response.data.action_attempt = await pollActionAttemptUntilReady(
+      await pollActionAttemptUntilReady(
         response.data.action_attempt.action_attempt_id
       )
     }
   }
-
-  if (response.status >= 400) {
-    console.log(chalk.red(`\n\n[${response.status}]\n`))
-  } else {
-    console.log(chalk.green(`\n\n[${response.status}]`))
-  }
-  console.dir(response.data, { depth: null })
-  console.log("\n")
 }
 
 cli(parseArgs(process.argv.slice(2))).catch((e) => {
-  // TODO: handle http errors
   console.log(chalk.red(`CLI Error: ${e.toString()}\n${e.stack}`))
   if (e.toString().includes("object Object")) {
     console.log(e)

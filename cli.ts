@@ -36,6 +36,11 @@ async function cli(args: ParsedArgs) {
 
   const selectedCommand = await interactForCommandSelection(args._)
   if (isEqual(selectedCommand, ["login"])) {
+    if (args.server) {
+      config.set("server", args.server)
+      config.delete("current_workspace_id")
+      return
+    }
     if (args.token) {
       config.set(`${getServer()}.pat`, args.token)
       config.delete("current_workspace_id")
@@ -59,6 +64,11 @@ async function cli(args: ParsedArgs) {
     await interactForWorkspaceId()
     return
   } else if (isEqual(selectedCommand, ["select", "server"])) {
+    if (args.server) {
+      config.set("server", args.server)
+      config.delete("current_workspace_id")
+      return
+    }
     await interactForServerSelection()
     return
   }

@@ -18,7 +18,7 @@ export const getSeam = () => {
     personalAccessToken: token_type === "pat" ? token : undefined,
     consoleSessionToken:
       token_type === "console-session-token" ? token : undefined,
-    apiKey: token_type === "api-key" ? undefined : token,
+    apiKey: token_type === "api-key" ? token : undefined,
     // https://github.com/seamapi/javascript-http/issues/30
     workspaceId: config.get("current_workspace_id"),
   })

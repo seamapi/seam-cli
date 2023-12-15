@@ -39,7 +39,6 @@ async function cli(args: ParsedArgs) {
     if (args.server) {
       config.set("server", args.server)
       config.delete("current_workspace_id")
-      return
     }
     if (args.token) {
       config.set(`${getServer()}.pat`, args.token)

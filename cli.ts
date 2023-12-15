@@ -48,7 +48,7 @@ async function cli(args: ParsedArgs) {
     if (args.workspace_id) {
       config.set(`current_workspace_id`, args.workspace_id)
     }
-    if (args.token || args.workspace_id) {
+    if (args.token || args.workspace_id || args.server) {
       return
     }
     await interactForLogin()

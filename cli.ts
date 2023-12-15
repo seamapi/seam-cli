@@ -38,6 +38,20 @@ async function cli(args: ParsedArgs) {
 
   const selectedCommand = await interactForCommandSelection(args._)
   if (isEqual(selectedCommand, ["login"])) {
+    if (args.server) {
+      config.set("server", args.server)
+      config.delete("current_workspace_id")
+    }
+    if (args.token) {
+      config.set(`${getServer()}.pat`, args.token)
+      config.delete("current_workspace_id")
+    }
+    if (args.workspace_id) {
+      config.set(`current_workspace_id`, args.workspace_id)
+    }
+    if (args.token || args.workspace_id || args.server) {
+      return
+    }
     await interactForLogin()
     return
   } else if (isEqual(selectedCommand, ["logout"])) {
@@ -51,6 +65,11 @@ async function cli(args: ParsedArgs) {
     await interactForWorkspaceId()
     return
   } else if (isEqual(selectedCommand, ["select", "server"])) {
+    if (args.server) {
+      config.set("server", args.server)
+      config.delete("current_workspace_id")
+      return
+    }
     await interactForServerSelection()
     return
   }
@@ -97,4 +116,7 @@ async function cli(args: ParsedArgs) {
 cli(parseArgs(process.argv.slice(2))).catch((e) => {
   // TODO: handle http errors
   console.log(chalk.red(`CLI Error: ${e.toString()}\n${e.stack}`))
+  if (e.toString().includes("object Object")) {
+    console.log(e)
+  }
 })

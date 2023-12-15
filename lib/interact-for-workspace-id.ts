@@ -13,7 +13,7 @@ export const interactForWorkspaceId = async () => {
   const {
     data: { workspaces },
   } = await axios
-    .get("https://connect.getseam.com/workspaces/list", {
+    .get(`${getServer()}/workspaces/list`, {
       headers: {
         Authorization: `Bearer ${getConfigStore().get(`${getServer()}.pat`)}`,
       },

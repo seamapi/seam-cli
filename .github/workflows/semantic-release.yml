@@ -6,8 +6,7 @@ run-name: Semantic Release from ${{ github.ref_name }}
 on:
   push:
     branches:
-      # - "**"
-      - "TODO: Enable once version 1.0.0 is released."
+      - '**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -23,7 +22,7 @@ jobs:
       new_release_version: ${{ steps.release.outputs.new_release_version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Semantic release
@@ -39,7 +38,7 @@ jobs:
     if: ${{ needs.semantic.outputs.new_release_published == 'true' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - name: Release version ${{ steps.release.outputs.new_release_version }} on ${{ github.ref_name }}

@@ -10,7 +10,8 @@
     "build": "tsup",
     "postbuild": "ncc build ./dist/cli.cjs -o ./bin && mv ./bin/index.cjs ./bin/seam.cjs",
     "build:binaries": "pkg --out-path bin ./bin/seam.cjs",
-    "build:binaries:mac": "pkg --out-path bin -t node18-macos-arm64 ./bin/seam.cjs"
+    "build:binaries:mac": "pkg --out-path bin -t node18-macos-arm64 ./bin/seam.cjs",
+    "typecheck": "tsc --noEmit"
   },
   "bin": {
     "seam": "./dist/cli.cjs"

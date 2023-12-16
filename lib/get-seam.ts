@@ -9,8 +9,8 @@ export const getSeam = () => {
   const token_type = token.startsWith("seam_at")
     ? "pat"
     : token.startsWith("ey")
-      ? "console-session-token"
-      : "api-key"
+    ? "console-session-token"
+    : "api-key"
 
   return new SeamHttp({
     endpoint: getServer(),

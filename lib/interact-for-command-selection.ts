@@ -1,9 +1,9 @@
-import prompts from 'prompts'
-import uniqBy from 'lodash/uniqBy'
-import isEqual from 'lodash/isEqual'
-import { ApiDefinitions } from './get-api-definitions'
+import prompts from "prompts"
+import uniqBy from "lodash/uniqBy"
+import isEqual from "lodash/isEqual"
+import { ApiDefinitions } from "./get-api-definitions"
 
-const ergonomicOrder = ['create', 'list', 'get', 'update', 'unlock_door']
+const ergonomicOrder = ["create", "list", "get", "update", "unlock_door"]
 
 function ergonomicSort(aStr: string, bStr: string) {
   let a = ergonomicOrder.indexOf(aStr)
@@ -19,13 +19,13 @@ export async function interactForCommandSelection(
   commandPath: string[]
 ) {
   const commands = Object.keys(api.paths!)
-    .map((k) => k.replace(/_/g, '-').replace(/^\//, '').split('/'))
+    .map((k) => k.replace(/_/g, "-").replace(/^\//, "").split("/"))
     .concat([
-      ['login'],
-      ['logout'],
-      ['config', 'reveal-location'],
-      ['select', 'workspace'],
-      ['select', 'server'],
+      ["login"],
+      ["logout"],
+      ["config", "reveal-location"],
+      ["select", "workspace"],
+      ["select", "server"],
     ])
 
   const possibleCommands = uniqBy(
@@ -37,7 +37,7 @@ export async function interactForCommandSelection(
     (v) => v[commandPath.length]
   )
   if (possibleCommands.length === 0) {
-    throw new Error('No possible commands')
+    throw new Error("No possible commands")
   }
 
   if (
@@ -46,26 +46,26 @@ export async function interactForCommandSelection(
   ) {
     return commandPath
   }
-  const commandPathStr = commandPath.join('/').replace(/-/g, '_')
+  const commandPathStr = commandPath.join("/").replace(/-/g, "_")
 
   const res = await prompts({
-    name: 'Command',
-    type: 'autocomplete',
+    name: "Command",
+    type: "autocomplete",
     choices: [
       ...possibleCommands.map((cmd) => ({
         title:
           cmd?.[commandPath.length] ?? `[Call /${commandPathStr} Directly]`,
-        value: cmd?.[commandPath.length] ?? '<none>',
+        value: cmd?.[commandPath.length] ?? "<none>",
       })),
     ].sort((a, b) => ergonomicSort(a.value, b.value)),
     message: `Select a command: /${commandPathStr}`,
   })
 
   if (res?.Command === undefined) {
-    throw new Error('Bailed')
+    throw new Error("Bailed")
   }
 
-  if (res?.Command === '<none>') {
+  if (res?.Command === "<none>") {
     return commandPath
   }
 

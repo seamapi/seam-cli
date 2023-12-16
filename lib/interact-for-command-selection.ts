@@ -1,8 +1,6 @@
 import prompts from "prompts"
 import uniqBy from "lodash/uniqBy"
 import isEqual from "lodash/isEqual"
-import { OpenApi } from "openapi-v3"
-import SwaggerParser from "swagger-parser"
 import { ApiDefinitions } from "./get-open-api"
 
 const ergonomicOrder = ["create", "list", "get", "update", "unlock_door"]

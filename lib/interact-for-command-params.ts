@@ -1,23 +1,23 @@
-import prompts from 'prompts'
-import { getCommandOpenApiDef } from './get-command-open-api-def'
-import { OpenApiSchema } from 'openapi-v3'
-import { interactForDevice } from './interact-for-device'
-import { interactForAccessCode } from './interact-for-access-code'
-import { interactForConnectedAccount } from './interact-for-connected-account'
-import { flattenObjSchema } from './openapi/flatten-obj-schema'
-import { interactForTimestamp } from './interact-for-timestamp'
-import { interactForUserIdentity } from './interact-for-user-identity'
-import { interactForAcsSystem } from './interact-for-acs-system'
-import { interactForAcsUser } from './interact-for-acs-user'
-import { interactForCredentialPool } from './interact-for-credential-pool'
-import { ApiDefinitions } from './get-api-definitions'
+import prompts from "prompts"
+import { getCommandOpenApiDef } from "./get-command-open-api-def"
+import { OpenApiSchema } from "openapi-v3"
+import { interactForDevice } from "./interact-for-device"
+import { interactForAccessCode } from "./interact-for-access-code"
+import { interactForConnectedAccount } from "./interact-for-connected-account"
+import { flattenObjSchema } from "./openapi/flatten-obj-schema"
+import { interactForTimestamp } from "./interact-for-timestamp"
+import { interactForUserIdentity } from "./interact-for-user-identity"
+import { interactForAcsSystem } from "./interact-for-acs-system"
+import { interactForAcsUser } from "./interact-for-acs-user"
+import { interactForCredentialPool } from "./interact-for-credential-pool"
+import { ApiDefinitions } from "./get-api-definitions"
 
 const ergonomicPropOrder = [
-  'name',
-  'connected_account_id',
-  'device_id',
-  'access_code_id',
-  'code',
+  "name",
+  "connected_account_id",
+  "device_id",
+  "access_code_id",
+  "code",
 ]
 
 export const interactForCommandParams = async (
@@ -28,18 +28,18 @@ export const interactForCommandParams = async (
   const requestBody = ((await getCommandOpenApiDef(api, cmd)).post as any)
     ?.requestBody
 
-  if (!requestBody) return ''
+  if (!requestBody) return ""
 
-  if ('$ref' in requestBody) {
+  if ("$ref" in requestBody) {
     throw new Error(
-      'Issue parsing OpenAPI https://github.com/seamapi/experimental-seam-cli/issues/1'
+      "Issue parsing OpenAPI https://github.com/seamapi/experimental-seam-cli/issues/1"
     )
   }
 
-  if (!('content' in requestBody)) throw new Error('No content in requestBody')
+  if (!("content" in requestBody)) throw new Error("No content in requestBody")
 
   const schema: OpenApiSchema = flattenObjSchema(
-    (requestBody as any).content['application/json'].schema
+    (requestBody as any).content["application/json"].schema
   )
 
   const { properties = {}, required = [] } = schema
@@ -53,26 +53,26 @@ export const interactForCommandParams = async (
     return ergonomicPropOrder.indexOf(prop)
   }
 
-  const cmdPath = `/${cmd.join('/').replace(/-/g, '_')}`
-  console.log('')
+  const cmdPath = `/${cmd.join("/").replace(/-/g, "_")}`
+  console.log("")
   const { paramToEdit } = await prompts({
-    name: 'paramToEdit',
+    name: "paramToEdit",
     message: `[${cmdPath}] Parameters`,
-    type: 'autocomplete',
+    type: "autocomplete",
     choices: [
       ...(haveAllRequiredParams
         ? [
             {
-              value: 'done',
+              value: "done",
               title: `[Make API Call] ${cmdPath}`,
             },
           ]
         : []),
       ...Object.keys(properties)
         .map((k) => {
-          let propDesc = (properties[k] as any)?.description ?? ''
+          let propDesc = (properties[k] as any)?.description ?? ""
           return {
-            title: k + (required.includes(k) ? '*' : ''),
+            title: k + (required.includes(k) ? "*" : ""),
             value: k,
             description:
               currentParams[k] !== undefined
@@ -84,47 +84,47 @@ export const interactForCommandParams = async (
     ],
   })
 
-  if (paramToEdit === 'done') {
+  if (paramToEdit === "done") {
     // TODO check for required
     return currentParams
   }
 
   const prop = properties[paramToEdit]
 
-  if (paramToEdit === 'device_id') {
+  if (paramToEdit === "device_id") {
     const device_id = await interactForDevice()
     return interactForCommandParams(api, cmd, { ...currentParams, device_id })
-  } else if (paramToEdit === 'access_code_id') {
+  } else if (paramToEdit === "access_code_id") {
     const access_code_id = await interactForAccessCode(currentParams)
     return interactForCommandParams(api, cmd, {
       ...currentParams,
       access_code_id,
     })
-  } else if (paramToEdit === 'connected_account_id') {
+  } else if (paramToEdit === "connected_account_id") {
     const connected_account_id = await interactForConnectedAccount()
     return interactForCommandParams(api, cmd, {
       ...currentParams,
       connected_account_id,
     })
-  } else if (paramToEdit === 'user_identity_id') {
+  } else if (paramToEdit === "user_identity_id") {
     const user_identity_id = await interactForUserIdentity()
     return interactForCommandParams(api, cmd, {
       ...currentParams,
       user_identity_id,
     })
-  } else if (paramToEdit.endsWith('acs_system_id')) {
+  } else if (paramToEdit.endsWith("acs_system_id")) {
     const acs_system_id = await interactForAcsSystem()
     return interactForCommandParams(api, cmd, {
       ...currentParams,
       [paramToEdit]: acs_system_id,
     })
-  } else if (paramToEdit.endsWith('credential_pool_id')) {
+  } else if (paramToEdit.endsWith("credential_pool_id")) {
     const credential_pool_id = await interactForCredentialPool()
     return interactForCommandParams(api, cmd, {
       ...currentParams,
       [paramToEdit]: credential_pool_id,
     })
-  } else if (paramToEdit.endsWith('acs_user_id')) {
+  } else if (paramToEdit.endsWith("acs_user_id")) {
     const acs_user_id = await interactForAcsUser()
     return interactForCommandParams(api, cmd, {
       ...currentParams,
@@ -132,10 +132,10 @@ export const interactForCommandParams = async (
     })
   } else if (
     // TODO replace when openapi returns if a field is a timestamp
-    paramToEdit.endsWith('_at') ||
-    paramToEdit === 'since' ||
-    paramToEdit.endsWith('_before') ||
-    paramToEdit.endsWith('_after')
+    paramToEdit.endsWith("_at") ||
+    paramToEdit === "since" ||
+    paramToEdit.endsWith("_before") ||
+    paramToEdit.endsWith("_after")
   ) {
     const tsval = await interactForTimestamp()
     return interactForCommandParams(api, cmd, {
@@ -144,15 +144,15 @@ export const interactForCommandParams = async (
     })
   }
 
-  if ('type' in prop) {
-    if (prop.type === 'string') {
+  if ("type" in prop) {
+    if (prop.type === "string") {
       let value
       if (prop.enum) {
         value = (
           await prompts({
-            name: 'value',
+            name: "value",
             message: `${paramToEdit}:`,
-            type: 'select',
+            type: "select",
             choices: prop.enum.map((v) => ({
               title: v.toString(),
               value: v.toString(),
@@ -162,9 +162,9 @@ export const interactForCommandParams = async (
       } else {
         value = (
           await prompts({
-            name: 'value',
+            name: "value",
             message: `${paramToEdit}:`,
-            type: 'text',
+            type: "text",
           })
         ).value
       }
@@ -172,11 +172,11 @@ export const interactForCommandParams = async (
         ...currentParams,
         [paramToEdit]: value,
       })
-    } else if (prop.type === 'boolean') {
+    } else if (prop.type === "boolean") {
       const { value } = await prompts({
-        name: 'value',
+        name: "value",
         message: `${paramToEdit}:`,
-        type: 'toggle',
+        type: "toggle",
         initial: true,
       })
 
@@ -184,12 +184,12 @@ export const interactForCommandParams = async (
         ...currentParams,
         [paramToEdit]: value,
       })
-    } else if (prop.type === 'array') {
+    } else if (prop.type === "array") {
       const value = (
         await prompts({
-          name: 'value',
+          name: "value",
           message: `${paramToEdit}:`,
-          type: 'multiselect',
+          type: "multiselect",
           choices: (prop as any).items.enum.map((v: string) => ({
             title: v.toString(),
             value: v.toString(),

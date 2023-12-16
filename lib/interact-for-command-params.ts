@@ -10,6 +10,7 @@ import { interactForUserIdentity } from "./interact-for-user-identity"
 import { interactForAcsSystem } from "./interact-for-acs-system"
 import { interactForAcsUser } from "./interact-for-acs-user"
 import { interactForCredentialPool } from "./interact-for-credential-pool"
+import { ApiDefinitions } from "./get-open-api"
 
 const ergonomicPropOrder = [
   "name",
@@ -20,10 +21,11 @@ const ergonomicPropOrder = [
 ]
 
 export const interactForCommandParams = async (
+  api: ApiDefinitions,
   cmd: string[],
   currentParams: any = {}
 ): Promise<any> => {
-  const requestBody = ((await getCommandOpenApiDef(cmd)).post as any)
+  const requestBody = ((await getCommandOpenApiDef(api, cmd)).post as any)
     ?.requestBody
 
   if (!requestBody) return ""
@@ -91,37 +93,40 @@ export const interactForCommandParams = async (
 
   if (paramToEdit === "device_id") {
     const device_id = await interactForDevice()
-    return interactForCommandParams(cmd, { ...currentParams, device_id })
+    return interactForCommandParams(api, cmd, { ...currentParams, device_id })
   } else if (paramToEdit === "access_code_id") {
     const access_code_id = await interactForAccessCode(currentParams)
-    return interactForCommandParams(cmd, { ...currentParams, access_code_id })
+    return interactForCommandParams(api, cmd, {
+      ...currentParams,
+      access_code_id,
+    })
   } else if (paramToEdit === "connected_account_id") {
     const connected_account_id = await interactForConnectedAccount()
-    return interactForCommandParams(cmd, {
+    return interactForCommandParams(api, cmd, {
       ...currentParams,
       connected_account_id,
     })
   } else if (paramToEdit === "user_identity_id") {
     const user_identity_id = await interactForUserIdentity()
-    return interactForCommandParams(cmd, {
+    return interactForCommandParams(api, cmd, {
       ...currentParams,
       user_identity_id,
     })
   } else if (paramToEdit.endsWith("acs_system_id")) {
     const acs_system_id = await interactForAcsSystem()
-    return interactForCommandParams(cmd, {
+    return interactForCommandParams(api, cmd, {
       ...currentParams,
       [paramToEdit]: acs_system_id,
     })
   } else if (paramToEdit.endsWith("credential_pool_id")) {
     const credential_pool_id = await interactForCredentialPool()
-    return interactForCommandParams(cmd, {
+    return interactForCommandParams(api, cmd, {
       ...currentParams,
       [paramToEdit]: credential_pool_id,
     })
   } else if (paramToEdit.endsWith("acs_user_id")) {
     const acs_user_id = await interactForAcsUser()
-    return interactForCommandParams(cmd, {
+    return interactForCommandParams(api, cmd, {
       ...currentParams,
       [paramToEdit]: acs_user_id,
     })
@@ -133,7 +138,7 @@ export const interactForCommandParams = async (
     paramToEdit.endsWith("_after")
   ) {
     const tsval = await interactForTimestamp()
-    return interactForCommandParams(cmd, {
+    return interactForCommandParams(api, cmd, {
       ...currentParams,
       [paramToEdit]: tsval,
     })
@@ -163,7 +168,7 @@ export const interactForCommandParams = async (
           })
         ).value
       }
-      return interactForCommandParams(cmd, {
+      return interactForCommandParams(api, cmd, {
         ...currentParams,
         [paramToEdit]: value,
       })
@@ -175,7 +180,7 @@ export const interactForCommandParams = async (
         initial: true,
       })
 
-      return interactForCommandParams(cmd, {
+      return interactForCommandParams(api, cmd, {
         ...currentParams,
         [paramToEdit]: value,
       })
@@ -191,7 +196,7 @@ export const interactForCommandParams = async (
           })),
         })
       ).value
-      return interactForCommandParams(cmd, {
+      return interactForCommandParams(api, cmd, {
         ...currentParams,
         [paramToEdit]: value,
       })

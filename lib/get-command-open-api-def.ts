@@ -1,9 +1,10 @@
-import { getOpenApi } from "./get-open-api"
-
-export const getCommandOpenApiDef = async (cmd: string[]) => {
-  const openApi = await getOpenApi()
+import { ApiDefinitions } from "./get-api-definitions"
+export const getCommandOpenApiDef = async (
+  api: ApiDefinitions,
+  cmd: string[]
+) => {
   const path = `/${cmd.join("/").replace(/-/g, "_")}`
-  const def = openApi.paths![path]
+  const def = api.paths![path]
   if (!def) {
     throw new Error(`No definition for path ${path}`)
   }

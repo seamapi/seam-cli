@@ -14,6 +14,7 @@ import { getServer } from "./lib/get-server"
 import prompts from "prompts"
 import { pollActionAttemptUntilReady } from "./lib/util/poll-action-attempt-until-ready"
 import logResponse from "./lib/util/log-response"
+import { getApiDefinitions } from "./lib/get-api-definitions"
 
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
@@ -37,7 +38,9 @@ async function cli(args: ParsedArgs) {
     commandParams[k.replace(/-/g, "_")] = v
   }
 
-  const selectedCommand = await interactForCommandSelection(args._)
+  const api = await getApiDefinitions(args.remote_api_defs)
+
+  const selectedCommand = await interactForCommandSelection(api, args._)
   if (isEqual(selectedCommand, ["login"])) {
     if (args.server) {
       config.set("server", args.server)
@@ -75,7 +78,11 @@ async function cli(args: ParsedArgs) {
     return
   }
 
-  const params = await interactForCommandParams(selectedCommand, commandParams)
+  const params = await interactForCommandParams(
+    api,
+    selectedCommand,
+    commandParams
+  )
   const seam = await getSeam()
 
   const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`

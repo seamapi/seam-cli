@@ -11,6 +11,7 @@ import { getSeam } from "./lib/get-seam"
 import chalk from "chalk"
 import { interactForServerSelection } from "./lib/interact-for-server-selection"
 import { getServer } from "./lib/get-server"
+import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 
 const sections = [
@@ -85,7 +86,9 @@ async function cli(args: ParsedArgs) {
     commandParams[k.replace(/-/g, "_")] = v
   }
 
-  const selectedCommand = await interactForCommandSelection(args._)
+  const api = await getApiDefinitions(args.remote_api_defs)
+
+  const selectedCommand = await interactForCommandSelection(api, args._)
   if (isEqual(selectedCommand, ["login"])) {
     if (args.server) {
       config.set("server", args.server)
@@ -123,7 +126,11 @@ async function cli(args: ParsedArgs) {
     return
   }
 
-  const params = await interactForCommandParams(selectedCommand, commandParams)
+  const params = await interactForCommandParams(
+    api,
+    selectedCommand,
+    commandParams
+  )
   const seam = await getSeam()
 
   const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`

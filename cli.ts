@@ -32,7 +32,7 @@ const sections = [
     ],
   },
   {
-    header: "Command List",
+    header: "Command List Examples",
     content: [
       { name: "seam", summary: "Interactively select commands to execute." },
       { name: "seam login", summary: "Login to Seam." },

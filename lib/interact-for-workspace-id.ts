@@ -1,6 +1,5 @@
 import { getConfigStore } from "./get-config-store"
 import prompts from "prompts"
-import { getSeam } from "./get-seam"
 import axios from "redaxios"
 import { getServer } from "./get-server"
 

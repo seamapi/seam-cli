@@ -15,6 +15,51 @@ import prompts from "prompts"
 import { pollActionAttemptUntilReady } from "./lib/util/poll-action-attempt-until-ready"
 import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
+import commandLineUsage from "command-line-usage"
+
+const sections = [
+  {
+    header: "Seam CLI",
+    content:
+      "Every seam command is interactive and will prompt you for any missing required properties with helpful suggestions. To avoid automatic behavior, pass -y ",
+  },
+  {
+    header: "Options",
+    optionList: [
+      {
+        name: "help",
+        description: "Display this help guide.",
+        alias: "h",
+        type: Boolean,
+      },
+    ],
+  },
+  {
+    header: "Command List Examples",
+    content: [
+      { name: "seam", summary: "Interactively select commands to execute." },
+      { name: "seam login", summary: "Login to Seam." },
+      { name: "seam select workspace", summary: "Select your workspace." },
+      {
+        name: "seam connect-webviews create",
+        summary: "Create a connect webview to connect devices.",
+      },
+      { name: "seam devices list", summary: "List devices in your workspace." },
+      {
+        name: "seam locks unlock-door {bold --device-id} $MY_DOOR",
+        summary: "Unlock a lock.",
+      },
+      {
+        name: "seam access-codes create {bold --code} '1234' {bold --name} 'My Code'",
+        summary: "Create an access code.",
+      },
+      {
+        name: "seam access-codes list {bold --device-id} $MY_DOOR",
+        summary: "List you access codes.",
+      },
+    ],
+  },
+]
 
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
@@ -26,6 +71,12 @@ async function cli(args: ParsedArgs) {
   ) {
     console.log(`Not logged in. Please run "seam login"`)
     process.exit(1)
+  }
+
+  if (args.help || args.h) {
+    const usage = commandLineUsage(sections)
+    console.log(usage)
+    return
   }
 
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))

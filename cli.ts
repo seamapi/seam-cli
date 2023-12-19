@@ -91,7 +91,7 @@ async function cli(args: ParsedArgs) {
 
   const api = await getApiDefinitions(args.remote_api_defs)
 
-  const selectedCommand = await interactForCommandSelection(api, args._)
+  const selectedCommand = await interactForCommandSelection(args._, { api })
   if (isEqual(selectedCommand, ["login"])) {
     if (args.server) {
       config.set("server", args.server)
@@ -129,11 +129,7 @@ async function cli(args: ParsedArgs) {
     return
   }
 
-  const params = await interactForCommandParams(
-    api,
-    selectedCommand,
-    commandParams
-  )
+  const params = await interactForCommandParams(selectedCommand, commandParams)
   const seam = await getSeam()
 
   const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`

@@ -2,6 +2,7 @@ import prompts from "prompts"
 import uniqBy from "lodash/uniqBy"
 import isEqual from "lodash/isEqual"
 import { ApiDefinitions } from "./get-api-definitions"
+import { ContextHelpers } from "./types"
 
 const ergonomicOrder = ["create", "list", "get", "update", "unlock_door"]
 
@@ -15,10 +16,10 @@ function ergonomicSort(aStr: string, bStr: string) {
 }
 
 export async function interactForCommandSelection(
-  api: ApiDefinitions,
-  commandPath: string[]
+  commandPath: string[],
+  helpers: ContextHelpers
 ) {
-  const commands = Object.keys(api.paths!)
+  const commands = Object.keys(helpers.api.paths!)
     .map((k) => k.replace(/_/g, "-").replace(/^\//, "").split("/"))
     .concat([
       ["login"],
@@ -76,7 +77,7 @@ export async function interactForCommandSelection(
   )
 
   if (!fullCommand) {
-    return interactForCommandSelection(api, newCommandPath)
+    return interactForCommandSelection(newCommandPath, helpers)
   }
 
   return fullCommand

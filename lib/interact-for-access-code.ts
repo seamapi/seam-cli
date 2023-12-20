@@ -7,7 +7,7 @@ export const interactForAccessCode = async ({
 }: {
   device_id?: string
 }) => {
-  const seam = await getSeam()
+  const seam = getSeam()
 
   if (!device_id) {
     device_id = await interactForDevice()

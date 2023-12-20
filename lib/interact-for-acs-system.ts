@@ -2,7 +2,7 @@ import prompts from "prompts"
 import { getSeam } from "./get-seam"
 
 export const interactForAcsSystem = async (message?: string) => {
-  const seam = await getSeam()
+  const seam = getSeam()
 
   const systems = await seam.acs.systems.list()
 

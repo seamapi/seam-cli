@@ -1,12 +1,12 @@
 import ms from "ms"
-import { AxiosResponse } from "axios"
+import type { AxiosResponse } from "axios"
 import { getSeam } from "../get-seam"
 import logResponse from "./log-response"
 
 export const pollActionAttemptUntilReady = async (
   action_attempt_id: string
 ) => {
-  const seam = getSeam()
+  const seam = await getSeam()
   const start_time = Date.now()
 
   let action_attempt

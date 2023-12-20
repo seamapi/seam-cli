@@ -84,7 +84,9 @@ async function cli(args: ParsedArgs) {
 
   const api = await getApiDefinitions(args.remote_api_defs)
 
-  const commandParams: ContextHelpers & Record<string, any> = {
+  const commandParams: Record<string, any> = {}
+
+  const ctx: ContextHelpers = {
     api,
   }
 
@@ -96,7 +98,7 @@ async function cli(args: ParsedArgs) {
     commandParams[k.replace(/-/g, "_")] = v
   }
 
-  const selectedCommand = await interactForCommandSelection(args._, { api })
+  const selectedCommand = await interactForCommandSelection(args._, ctx)
   if (isEqual(selectedCommand, ["login"])) {
     if (args.server) {
       config.set("server", args.server)
@@ -134,7 +136,10 @@ async function cli(args: ParsedArgs) {
     return
   }
 
-  const params = await interactForCommandParams(selectedCommand, commandParams)
+  const params = await interactForCommandParams(
+    { command: selectedCommand, params: commandParams },
+    ctx
+  )
   const seam = await getSeam()
 
   const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`

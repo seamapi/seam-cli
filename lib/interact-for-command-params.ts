@@ -10,7 +10,6 @@ import { interactForUserIdentity } from "./interact-for-user-identity"
 import { interactForAcsSystem } from "./interact-for-acs-system"
 import { interactForAcsUser } from "./interact-for-acs-user"
 import { interactForCredentialPool } from "./interact-for-credential-pool"
-import { ApiDefinitions } from "./get-api-definitions"
 import { ContextHelpers } from "./types"
 
 const ergonomicPropOrder = [

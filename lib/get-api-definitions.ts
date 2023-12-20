@@ -1,18 +1,13 @@
-import localApi from "./openapi.json"
+import { getOpenapiSchema } from "@seamapi/http/connect"
+import { openapi } from "@seamapi/types/connect"
+import { type OpenAPI } from "openapi-types"
 import SwaggerParser from "swagger-parser"
-import axios from "redaxios"
 
 export type ApiDefinitions = Awaited<ReturnType<SwaggerParser["dereference"]>>
 
 export const getApiDefinitions = async (
   useRemoteDefinitions: boolean
 ): Promise<ApiDefinitions> => {
-  if (useRemoteDefinitions) {
-    const { data: remoteApi } = await axios.get(
-      "https://connect.getseam.com/openapi.json"
-    )
-    return SwaggerParser.dereference(remoteApi as any)
-  }
-
-  return SwaggerParser.dereference(localApi as any)
+  const schema = useRemoteDefinitions ? await getOpenapiSchema() : openapi
+  return SwaggerParser.dereference(schema as unknown as OpenAPI.Document)
 }

@@ -16,6 +16,7 @@ import { pollActionAttemptUntilReady } from "./lib/util/poll-action-attempt-unti
 import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
+import { ContextHelpers } from "./lib/types"
 
 const sections = [
   {
@@ -80,7 +81,13 @@ async function cli(args: ParsedArgs) {
   }
 
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))
-  const commandParams: any = {}
+
+  const api = await getApiDefinitions(args.remote_api_defs)
+
+  const commandParams: ContextHelpers & Record<string, any> = {
+    api,
+  }
+
   for (const k in args) {
     if (k === "_") continue
     const v = args[k]
@@ -88,8 +95,6 @@ async function cli(args: ParsedArgs) {
     args[k.replace(/-/g, "_")] = v
     commandParams[k.replace(/-/g, "_")] = v
   }
-
-  const api = await getApiDefinitions(args.remote_api_defs)
 
   const selectedCommand = await interactForCommandSelection(args._, { api })
   if (isEqual(selectedCommand, ["login"])) {

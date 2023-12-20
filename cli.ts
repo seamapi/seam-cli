@@ -90,6 +90,7 @@ async function cli(args: ParsedArgs) {
   }
 
   const api = await getApiDefinitions(args.remote_api_defs)
+  commandParams['api'] = api
 
   const selectedCommand = await interactForCommandSelection(args._, { api })
   if (isEqual(selectedCommand, ["login"])) {

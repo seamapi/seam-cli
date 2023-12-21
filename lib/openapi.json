@@ -83,6 +83,7 @@
                   "is_offline_access_code": { "type": "boolean" },
                   "is_one_time_use": { "type": "boolean" },
                   "max_time_rounding": {
+                    "default": "1hour",
                     "type": "string",
                     "enum": ["1hour", "1day", "1h", "1d"]
                   }
@@ -164,6 +165,7 @@
                   "is_offline_access_code": { "type": "boolean" },
                   "is_one_time_use": { "type": "boolean" },
                   "max_time_rounding": {
+                    "default": "1hour",
                     "type": "string",
                     "enum": ["1hour", "1day", "1h", "1d"]
                   }
@@ -245,6 +247,7 @@
                   "is_offline_access_code": { "type": "boolean" },
                   "is_one_time_use": { "type": "boolean" },
                   "max_time_rounding": {
+                    "default": "1hour",
                     "type": "string",
                     "enum": ["1hour", "1day", "1h", "1d"]
                   }
@@ -575,6 +578,7 @@
                   "is_offline_access_code": { "type": "boolean" },
                   "is_one_time_use": { "type": "boolean" },
                   "max_time_rounding": {
+                    "default": "1hour",
                     "type": "string",
                     "enum": ["1hour", "1day", "1h", "1d"]
                   },
@@ -652,6 +656,7 @@
                   "is_offline_access_code": { "type": "boolean" },
                   "is_one_time_use": { "type": "boolean" },
                   "max_time_rounding": {
+                    "default": "1hour",
                     "type": "string",
                     "enum": ["1hour", "1day", "1h", "1d"]
                   },
@@ -731,6 +736,7 @@
                   "is_offline_access_code": { "type": "boolean" },
                   "is_one_time_use": { "type": "boolean" },
                   "max_time_rounding": {
+                    "default": "1hour",
                     "type": "string",
                     "enum": ["1hour", "1day", "1h", "1d"]
                   },
@@ -1472,6 +1478,7 @@
                         "seam_passport",
                         "visionline",
                         "assa_abloy_credential_service",
+                        "seam_bridge",
                         "yale_access",
                         "hid_cm"
                       ]
@@ -2092,6 +2099,10 @@
                       {
                         "type": "string",
                         "enum": ["ecobee_thermostat", "nest_thermostat"]
+                      },
+                      {
+                        "type": "string",
+                        "enum": ["ios_phone", "android_phone"]
                       }
                     ]
                   },
@@ -2136,6 +2147,10 @@
                         {
                           "type": "string",
                           "enum": ["ecobee_thermostat", "nest_thermostat"]
+                        },
+                        {
+                          "type": "string",
+                          "enum": ["ios_phone", "android_phone"]
                         }
                       ]
                     }
@@ -2835,6 +2850,10 @@
                       {
                         "type": "string",
                         "enum": ["ecobee_thermostat", "nest_thermostat"]
+                      },
+                      {
+                        "type": "string",
+                        "enum": ["ios_phone", "android_phone"]
                       }
                     ]
                   },
@@ -2879,6 +2898,10 @@
                         {
                           "type": "string",
                           "enum": ["ecobee_thermostat", "nest_thermostat"]
+                        },
+                        {
+                          "type": "string",
+                          "enum": ["ios_phone", "android_phone"]
                         }
                       ]
                     }
@@ -3319,6 +3342,10 @@
                       {
                         "type": "string",
                         "enum": ["ecobee_thermostat", "nest_thermostat"]
+                      },
+                      {
+                        "type": "string",
+                        "enum": ["ios_phone", "android_phone"]
                       }
                     ]
                   },
@@ -3363,6 +3390,10 @@
                         {
                           "type": "string",
                           "enum": ["ecobee_thermostat", "nest_thermostat"]
+                        },
+                        {
+                          "type": "string",
+                          "enum": ["ios_phone", "android_phone"]
                         }
                       ]
                     }
@@ -5288,9 +5319,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -5381,9 +5412,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -5463,9 +5494,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -5537,9 +5568,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -5611,7 +5642,8 @@
                           "enum": [
                             "pti_card",
                             "brivo_credential",
-                            "hid_credential"
+                            "hid_credential",
+                            "visionline_card"
                           ]
                         },
                         "external_type_display_name": { "type": "string" },
@@ -5626,8 +5658,6 @@
                         "acs_system_id",
                         "display_name",
                         "access_method",
-                        "external_type",
-                        "external_type_display_name",
                         "created_at",
                         "workspace_id"
                       ]
@@ -5643,9 +5673,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -5699,7 +5729,8 @@
                           "enum": [
                             "pti_card",
                             "brivo_credential",
-                            "hid_credential"
+                            "hid_credential",
+                            "visionline_card"
                           ]
                         },
                         "external_type_display_name": { "type": "string" },
@@ -5714,8 +5745,6 @@
                         "acs_system_id",
                         "display_name",
                         "access_method",
-                        "external_type",
-                        "external_type_display_name",
                         "created_at",
                         "workspace_id"
                       ]
@@ -5731,9 +5760,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -5790,7 +5819,8 @@
                           "enum": [
                             "pti_card",
                             "brivo_credential",
-                            "hid_credential"
+                            "hid_credential",
+                            "visionline_card"
                           ]
                         },
                         "external_type_display_name": { "type": "string" },
@@ -5805,8 +5835,6 @@
                         "acs_system_id",
                         "display_name",
                         "access_method",
-                        "external_type",
-                        "external_type_display_name",
                         "created_at",
                         "workspace_id"
                       ]
@@ -5822,9 +5850,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -5837,7 +5865,26 @@
                     "type": "string",
                     "enum": ["code", "card", "mobile_key"]
                   },
-                  "code": { "type": "string", "pattern": "^\\d+$" }
+                  "code": { "type": "string", "pattern": "^\\d+$" },
+                  "is_multi_phone_sync_credential": { "type": "boolean" },
+                  "assa_abloy_credential_service_mobile_endpoint_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "external_type": {
+                    "type": "string",
+                    "enum": [
+                      "pti_card",
+                      "brivo_credential",
+                      "hid_credential",
+                      "visionline_card"
+                    ]
+                  },
+                  "card_format": {
+                    "type": "string",
+                    "enum": ["TLCode", "rfid48"]
+                  },
+                  "is_override_key": { "type": "boolean" }
                 },
                 "required": ["acs_user_id", "access_method"]
               }
@@ -5870,9 +5917,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -5928,7 +5975,8 @@
                           "enum": [
                             "pti_card",
                             "brivo_credential",
-                            "hid_credential"
+                            "hid_credential",
+                            "visionline_card"
                           ]
                         },
                         "external_type_display_name": { "type": "string" },
@@ -5943,8 +5991,6 @@
                         "acs_system_id",
                         "display_name",
                         "access_method",
-                        "external_type",
-                        "external_type_display_name",
                         "created_at",
                         "workspace_id"
                       ]
@@ -5960,9 +6006,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6023,7 +6069,8 @@
                             "enum": [
                               "pti_card",
                               "brivo_credential",
-                              "hid_credential"
+                              "hid_credential",
+                              "visionline_card"
                             ]
                           },
                           "external_type_display_name": { "type": "string" },
@@ -6038,8 +6085,6 @@
                           "acs_system_id",
                           "display_name",
                           "access_method",
-                          "external_type",
-                          "external_type_display_name",
                           "created_at",
                           "workspace_id"
                         ]
@@ -6134,7 +6179,8 @@
                           "enum": [
                             "pti_card",
                             "brivo_credential",
-                            "hid_credential"
+                            "hid_credential",
+                            "visionline_card"
                           ]
                         },
                         "external_type_display_name": { "type": "string" },
@@ -6149,8 +6195,6 @@
                         "acs_system_id",
                         "display_name",
                         "access_method",
-                        "external_type",
-                        "external_type_display_name",
                         "created_at",
                         "workspace_id"
                       ]
@@ -6166,9 +6210,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6222,7 +6266,8 @@
                           "enum": [
                             "pti_card",
                             "brivo_credential",
-                            "hid_credential"
+                            "hid_credential",
+                            "visionline_card"
                           ]
                         },
                         "external_type_display_name": { "type": "string" },
@@ -6237,8 +6282,6 @@
                         "acs_system_id",
                         "display_name",
                         "access_method",
-                        "external_type",
-                        "external_type_display_name",
                         "created_at",
                         "workspace_id"
                       ]
@@ -6254,9 +6297,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6313,7 +6356,8 @@
                           "enum": [
                             "pti_card",
                             "brivo_credential",
-                            "hid_credential"
+                            "hid_credential",
+                            "visionline_card"
                           ]
                         },
                         "external_type_display_name": { "type": "string" },
@@ -6328,8 +6372,6 @@
                         "acs_system_id",
                         "display_name",
                         "access_method",
-                        "external_type",
-                        "external_type_display_name",
                         "created_at",
                         "workspace_id"
                       ]
@@ -6345,9 +6387,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6401,7 +6443,8 @@
                           "enum": [
                             "pti_card",
                             "brivo_credential",
-                            "hid_credential"
+                            "hid_credential",
+                            "visionline_card"
                           ]
                         },
                         "external_type_display_name": { "type": "string" },
@@ -6416,8 +6459,6 @@
                         "acs_system_id",
                         "display_name",
                         "access_method",
-                        "external_type",
-                        "external_type_display_name",
                         "created_at",
                         "workspace_id"
                       ]
@@ -6433,9 +6474,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6664,9 +6705,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6713,9 +6754,10 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "client_session": [] },
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6744,9 +6786,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6774,9 +6816,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6821,9 +6863,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6836,6 +6878,15 @@
                     "default": [],
                     "type": "array",
                     "items": { "type": "string", "format": "uuid" }
+                  },
+                  "user_identity_id": { "type": "string", "format": "uuid" },
+                  "access_schedule": {
+                    "type": "object",
+                    "properties": {
+                      "starts_at": { "type": "string", "format": "date-time" },
+                      "ends_at": { "type": "string", "format": "date-time" }
+                    },
+                    "required": ["starts_at", "ends_at"]
                   },
                   "full_name": { "type": "string" },
                   "email": {
@@ -6877,9 +6928,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6923,9 +6974,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -6972,9 +7023,10 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "client_session": [] },
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -7004,9 +7056,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -7048,9 +7100,9 @@
           "401": { "description": "Unauthorized" }
         },
         "security": [
-          { "seam_workspace": [], "access_token": [] },
-          { "seam_client_session_token": [] },
-          { "client_session_token": [] }
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
         ],
         "requestBody": {
           "content": {
@@ -7352,6 +7404,10 @@
                       {
                         "type": "string",
                         "enum": ["ecobee_thermostat", "nest_thermostat"]
+                      },
+                      {
+                        "type": "string",
+                        "enum": ["ios_phone", "android_phone"]
                       }
                     ]
                   },
@@ -7396,6 +7452,10 @@
                         {
                           "type": "string",
                           "enum": ["ecobee_thermostat", "nest_thermostat"]
+                        },
+                        {
+                          "type": "string",
+                          "enum": ["ios_phone", "android_phone"]
                         }
                       ]
                     }
@@ -8476,6 +8536,101 @@
         "tags": [],
         "operationId": "thermostatsClimateSettingSchedulesUpdatePatch"
       }
+    },
+    "/user_identities/enrollment_automations/launch": {
+      "post": {
+        "x-fern-sdk-group-name": ["user_identities", "enrollment_automations"],
+        "x-fern-sdk-method-name": "launch",
+        "summary": "/user_identities/enrollment_automations/launch",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "enrollment_automation": {
+                      "type": "object",
+                      "properties": {
+                        "acs_credential_provisioning_automation_id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "credential_manager_acs_system_id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "user_identity_id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "workspace_id": { "type": "string", "format": "uuid" },
+                        "enrollment_automation_id": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      },
+                      "required": [
+                        "acs_credential_provisioning_automation_id",
+                        "credential_manager_acs_system_id",
+                        "user_identity_id",
+                        "created_at",
+                        "workspace_id",
+                        "enrollment_automation_id"
+                      ]
+                    },
+                    "ok": { "type": "boolean" }
+                  },
+                  "required": ["enrollment_automation", "ok"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": [
+          { "pat_with_workspace": [] },
+          { "console_session": [] },
+          { "api_key": [] }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_identity_id": { "type": "string", "format": "uuid" },
+                  "credential_manager_acs_system_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "acs_credential_pool_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "create_credential_manager_user": { "type": "boolean" },
+                  "credential_manager_acs_user_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "required": [
+                  "user_identity_id",
+                  "credential_manager_acs_system_id"
+                ]
+              }
+            }
+          }
+        },
+        "tags": [],
+        "operationId": "userIdentitiesEnrollmentAutomationsLaunchPost"
+      }
     }
   },
   "components": {
@@ -9021,7 +9176,8 @@
               {
                 "type": "string",
                 "enum": ["ecobee_thermostat", "nest_thermostat"]
-              }
+              },
+              { "type": "string", "enum": ["ios_phone", "android_phone"] }
             ],
             "description": "Type of the device."
           },
@@ -9034,7 +9190,8 @@
                 "lock",
                 "noise_detection",
                 "thermostat",
-                "battery"
+                "battery",
+                "phone"
               ]
             },
             "description": "Collection of capabilities that the device supports when connected to Seam. Values are \"access_code,\" which indicates that the device can manage and utilize digital PIN codes for secure access; \"lock,\" which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; \"noise_detection,\" which indicates that the device supports monitoring and responding to ambient noise levels; \"thermostat,\" which indicates that the device can regulate and adjust indoor temperatures; and \"battery,\" which indicates that the device can manage battery life and health."
@@ -10212,7 +10369,8 @@
               {
                 "type": "string",
                 "enum": ["ecobee_thermostat", "nest_thermostat"]
-              }
+              },
+              { "type": "string", "enum": ["ios_phone", "android_phone"] }
             ],
             "description": "Type of the device."
           },
@@ -10230,7 +10388,8 @@
                 "lock",
                 "noise_detection",
                 "thermostat",
-                "battery"
+                "battery",
+                "phone"
               ]
             },
             "description": "Collection of capabilities that the device supports when connected to Seam. Values are \"access_code,\" which indicates that the device can manage and utilize digital PIN codes for secure access; \"lock,\" which indicates that the device controls a door locking mechanism, enabling the remote opening and closing of doors and other entry points; \"noise_detection,\" which indicates that the device supports monitoring and responding to ambient noise levels; \"thermostat,\" which indicates that the device can regulate and adjust indoor temperatures; and \"battery,\" which indicates that the device can manage battery life and health."
@@ -10573,6 +10732,14 @@
           },
           "external_type_display_name": { "type": "string" },
           "is_suspended": { "type": "boolean" },
+          "access_schedule": {
+            "type": "object",
+            "properties": {
+              "starts_at": { "type": "string", "format": "date-time" },
+              "ends_at": { "type": "string", "format": "date-time" }
+            },
+            "required": ["starts_at", "ends_at"]
+          },
           "full_name": { "type": "string" },
           "email": {
             "type": "string",
@@ -10588,8 +10755,6 @@
           "workspace_id",
           "created_at",
           "display_name",
-          "external_type",
-          "external_type_display_name",
           "is_suspended"
         ]
       }

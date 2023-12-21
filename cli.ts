@@ -81,6 +81,9 @@ async function cli(args: ParsedArgs) {
   }
 
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))
+  for (const k in args) {
+    args[k.toLowerCase().replace(/-/g, "_")] = args[k]
+  }
 
   const api = await getApiDefinitions(args.remote_api_defs)
 

@@ -82,7 +82,7 @@ async function cli(args: ParsedArgs) {
   }
 
   if (args.version) {
-    console.log(`CLI Tool Version: ${version}`);
+    console.log(version);
     process.exit(0);
   }
 

@@ -250,7 +250,7 @@ export const interactForCommandParams = async (
         await prompts({
           name: "value",
           message: `${paramToEdit}:`,
-          type: "multiselect",
+          type: "autocompleteMultiselect",
           choices: (prop as any).items.enum.map((v: string) => ({
             title: v.toString(),
             value: v.toString(),

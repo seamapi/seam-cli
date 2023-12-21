@@ -233,6 +233,8 @@ export const interactForCommandParams = async (
         message: `${paramToEdit}:`,
         type: "toggle",
         initial: true,
+        active: "true",
+        inactive: "false",
       })
 
       return interactForCommandParams(

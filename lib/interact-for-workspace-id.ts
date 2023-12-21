@@ -1,27 +1,12 @@
 import { getConfigStore } from "./get-config-store"
 import prompts from "prompts"
-import axios from "redaxios"
-import { getServer } from "./get-server"
+import { getSeamMultiWorkspace } from "./get-seam"
 
 export const interactForWorkspaceId = async () => {
   const config = getConfigStore()
 
-  // const seam = await getSeam()
-  // const workspaces = await seam.workspaces.list()
-  // https://github.com/seamapi/javascript-http/issues/30
-
-  const {
-    data: { workspaces },
-  } = await axios
-    .get(`${getServer()}/workspaces/list`, {
-      headers: {
-        Authorization: `Bearer ${getConfigStore().get(`${getServer()}.pat`)}`,
-      },
-    })
-    .catch((e) => {
-      console.log(e?.response?.data)
-      throw e
-    })
+  const seam = await getSeamMultiWorkspace()
+  const workspaces = await seam.workspaces.list()
 
   const { workspaceId } = await prompts({
     name: "workspaceId",

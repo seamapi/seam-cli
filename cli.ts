@@ -17,6 +17,7 @@ import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
+import { version } from './package.json';
 
 const sections = [
   {
@@ -78,6 +79,11 @@ async function cli(args: ParsedArgs) {
     const usage = commandLineUsage(sections)
     console.log(usage)
     return
+  }
+
+  if (args.version) {
+    console.log(`CLI Tool Version: ${version}`);
+    process.exit(0);
   }
 
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))

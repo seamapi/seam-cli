@@ -22,6 +22,7 @@
   "include": [
     "lib/**/*.ts",
     "cli.ts",
-    "index.ts"
+    "index.ts",
+    "package.json"
   ]
 }

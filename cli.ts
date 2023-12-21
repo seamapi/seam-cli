@@ -82,8 +82,8 @@ async function cli(args: ParsedArgs) {
   }
 
   if (args.version) {
-    console.log(version);
-    process.exit(0);
+    console.log(version)
+    process.exit(0)
   }
 
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))

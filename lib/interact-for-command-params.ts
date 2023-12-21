@@ -12,6 +12,7 @@ import { interactForAcsUser } from "./interact-for-acs-user"
 import { interactForCredentialPool } from "./interact-for-credential-pool"
 import { ApiDefinitions } from "./get-api-definitions"
 import { ContextHelpers } from "./types"
+import { interactForAcsEntrance } from "./interact-for-acs-entrance"
 
 const ergonomicPropOrder = [
   "name",
@@ -169,6 +170,18 @@ export const interactForCommandParams = async (
         params: {
           ...currentParams,
           [paramToEdit]: acs_user_id,
+        },
+      },
+      ctx
+    )
+  } else if (paramToEdit.endsWith("acs_entrance_id")) {
+    const acs_entrance_id = await interactForAcsEntrance()
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          [paramToEdit]: acs_entrance_id,
         },
       },
       ctx

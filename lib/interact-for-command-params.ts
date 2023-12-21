@@ -11,6 +11,7 @@ import { interactForAcsSystem } from "./interact-for-acs-system"
 import { interactForAcsUser } from "./interact-for-acs-user"
 import { interactForCredentialPool } from "./interact-for-credential-pool"
 import { ContextHelpers } from "./types"
+import { interactForAcsEntrance } from "./interact-for-acs-entrance"
 
 const ergonomicPropOrder = [
   "name",
@@ -21,12 +22,15 @@ const ergonomicPropOrder = [
 ]
 
 export const interactForCommandParams = async (
-  cmd: string[],
-  currentParams: ContextHelpers & Record<string, any>
+  args: {
+    command: string[]
+    params: Record<string, any>
+  },
+  ctx: ContextHelpers
 ): Promise<any> => {
-  const requestBody = (
-    (await getCommandOpenApiDef(cmd, currentParams)).post as any
-  )?.requestBody
+  const { command, params: currentParams } = args
+  const requestBody = ((await getCommandOpenApiDef(command, ctx)).post as any)
+    ?.requestBody
 
   if (!requestBody) return ""
 
@@ -53,7 +57,7 @@ export const interactForCommandParams = async (
     return ergonomicPropOrder.indexOf(prop)
   }
 
-  const cmdPath = `/${cmd.join("/").replace(/-/g, "_")}`
+  const cmdPath = `/${command.join("/").replace(/-/g, "_")}`
   console.log("")
   const { paramToEdit } = await prompts({
     name: "paramToEdit",
@@ -93,43 +97,94 @@ export const interactForCommandParams = async (
 
   if (paramToEdit === "device_id") {
     const device_id = await interactForDevice()
-    return interactForCommandParams(cmd, { ...currentParams, device_id })
+    return interactForCommandParams(
+      { command, params: { ...currentParams, device_id } },
+      ctx
+    )
   } else if (paramToEdit === "access_code_id") {
     const access_code_id = await interactForAccessCode(currentParams as any)
-    return interactForCommandParams(cmd, {
-      ...currentParams,
-      access_code_id,
-    })
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          access_code_id,
+        },
+      },
+      ctx
+    )
   } else if (paramToEdit === "connected_account_id") {
     const connected_account_id = await interactForConnectedAccount()
-    return interactForCommandParams(cmd, {
-      ...currentParams,
-      connected_account_id,
-    })
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          connected_account_id,
+        },
+      },
+      ctx
+    )
   } else if (paramToEdit === "user_identity_id") {
     const user_identity_id = await interactForUserIdentity()
-    return interactForCommandParams(cmd, {
-      ...currentParams,
-      user_identity_id,
-    })
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          user_identity_id,
+        },
+      },
+      ctx
+    )
   } else if (paramToEdit.endsWith("acs_system_id")) {
     const acs_system_id = await interactForAcsSystem()
-    return interactForCommandParams(cmd, {
-      ...currentParams,
-      [paramToEdit]: acs_system_id,
-    })
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          [paramToEdit]: acs_system_id,
+        },
+      },
+      ctx
+    )
   } else if (paramToEdit.endsWith("credential_pool_id")) {
     const credential_pool_id = await interactForCredentialPool()
-    return interactForCommandParams(cmd, {
-      ...currentParams,
-      [paramToEdit]: credential_pool_id,
-    })
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          [paramToEdit]: credential_pool_id,
+        },
+      },
+      ctx
+    )
   } else if (paramToEdit.endsWith("acs_user_id")) {
     const acs_user_id = await interactForAcsUser()
-    return interactForCommandParams(cmd, {
-      ...currentParams,
-      [paramToEdit]: acs_user_id,
-    })
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          [paramToEdit]: acs_user_id,
+        },
+      },
+      ctx
+    )
+  } else if (paramToEdit.endsWith("acs_entrance_id")) {
+    const acs_entrance_id = await interactForAcsEntrance()
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          [paramToEdit]: acs_entrance_id,
+        },
+      },
+      ctx
+    )
   } else if (
     // TODO replace when openapi returns if a field is a timestamp
     paramToEdit.endsWith("_at") ||
@@ -138,10 +193,16 @@ export const interactForCommandParams = async (
     paramToEdit.endsWith("_after")
   ) {
     const tsval = await interactForTimestamp()
-    return interactForCommandParams(cmd, {
-      ...currentParams,
-      [paramToEdit]: tsval,
-    })
+    return interactForCommandParams(
+      {
+        command,
+        params: {
+          ...currentParams,
+          [paramToEdit]: tsval,
+        },
+      },
+      ctx
+    )
   }
 
   if ("type" in prop) {
@@ -168,38 +229,58 @@ export const interactForCommandParams = async (
           })
         ).value
       }
-      return interactForCommandParams(cmd, {
-        ...currentParams,
-        [paramToEdit]: value,
-      })
+      return interactForCommandParams(
+        {
+          command,
+          params: {
+            ...currentParams,
+            [paramToEdit]: value,
+          },
+        },
+        ctx
+      )
     } else if (prop.type === "boolean") {
       const { value } = await prompts({
         name: "value",
         message: `${paramToEdit}:`,
         type: "toggle",
         initial: true,
+        active: "true",
+        inactive: "false",
       })
 
-      return interactForCommandParams(cmd, {
-        ...currentParams,
-        [paramToEdit]: value,
-      })
+      return interactForCommandParams(
+        {
+          command,
+          params: {
+            ...currentParams,
+            [paramToEdit]: value,
+          },
+        },
+        ctx
+      )
     } else if (prop.type === "array") {
       const value = (
         await prompts({
           name: "value",
           message: `${paramToEdit}:`,
-          type: "multiselect",
+          type: "autocompleteMultiselect",
           choices: (prop as any).items.enum.map((v: string) => ({
             title: v.toString(),
             value: v.toString(),
           })),
         })
       ).value
-      return interactForCommandParams(cmd, {
-        ...currentParams,
-        [paramToEdit]: value,
-      })
+      return interactForCommandParams(
+        {
+          command,
+          params: {
+            ...currentParams,
+            [paramToEdit]: value,
+          },
+        },
+        ctx
+      )
     }
   }
 

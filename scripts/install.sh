@@ -339,13 +339,13 @@ if [ "$curl_installed" -eq 0 ] || [ "$wget_installed" -eq 0 ]; then
 
     # download binary
     log_debug "Downloading binary from $url"
-    status_code=$( curl_download "$url" "$filename" "Binary" )
+    status_code=$(curl_download "$url" "$filename" "Binary")
     check_http_status "$status_code" "Binary"
   elif [ "$wget_installed" -eq 0 ]; then
     log_debug "Using $wget_binary for requests"
 
     log_debug "Downloading binary from $url"
-    status_code=$( wget_download "$url" "$filename" "Binary" )
+    status_code=$(wget_download "$url" "$filename" "Binary")
     check_http_status "$status_code" "Binary"
   fi
 else

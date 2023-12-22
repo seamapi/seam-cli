@@ -145,6 +145,13 @@ async function cli(args: ParsedArgs) {
     return
   }
 
+  // TODO - do this using the OpenAPI spec for the command rather than
+  // explicitly encoding the property names
+  if (commandParams.accepted_providers) {
+    commandParams.accepted_providers =
+      commandParams.accepted_providers.split(",")
+  }
+
   const params = await interactForCommandParams(
     { command: selectedCommand, params: commandParams },
     ctx

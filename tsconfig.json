@@ -21,8 +21,8 @@
   },
   "include": [
     "lib/**/*.ts",
-    "lib/openapi.json",
     "cli.ts",
-    "index.ts"
+    "index.ts",
+    "package.json"
   ]
 }

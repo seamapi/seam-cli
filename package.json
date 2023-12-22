@@ -3,7 +3,9 @@
   "module": "index.ts",
   "type": "module",
   "version": "0.0.24",
-  "repository": "git@github.com:seamapi/seam-cli.git",
+  "homepage": "https://github.com/seamapi/seam-cli",
+  "bugs": "https://github.com/seamapi/seam-cli/issues",
+  "repository": "seamapi/seam-cli",
   "scripts": {
     "cli": "tsx ./cli.ts",
     "build": "tsup",

@@ -27,5 +27,12 @@ export const getSeamMultiWorkspace =
     const config = getConfigStore()
     const token = config.get(`${getServer()}.pat`)
     const options = { endpoint: getServer() }
-    return SeamHttpMultiWorkspace.fromPersonalAccessToken(token, options)
+    try {
+      return SeamHttpMultiWorkspace.fromPersonalAccessToken(token, options)
+    } catch (e: any) {
+      if (e.toString().includes("SeamHttpInvalidTokenError")) {
+        return getSeam() as any
+      }
+      throw e
+    }
   }

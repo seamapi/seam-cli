@@ -12,13 +12,17 @@ import { interactForAcsUser } from "./interact-for-acs-user"
 import { interactForCredentialPool } from "./interact-for-credential-pool"
 import { ContextHelpers } from "./types"
 import { interactForAcsEntrance } from "./interact-for-acs-entrance"
+import { ellipsis } from "./util/ellipsis"
 
 const ergonomicPropOrder = [
   "name",
   "connected_account_id",
   "device_id",
   "access_code_id",
+  "user_identity_id",
   "code",
+  "starts_at",
+  "ends_at",
 ]
 
 export const interactForOpenApiObject = async (
@@ -28,7 +32,6 @@ export const interactForOpenApiObject = async (
     params: Record<string, any>
     isSubProperty?: boolean
     subPropertyPath?: string
-    allowExitBeforeComplete?: boolean
   },
   ctx: ContextHelpers
 ): Promise<any> => {
@@ -42,24 +45,36 @@ export const interactForOpenApiObject = async (
   const haveAllRequiredParams = required.every((k) => args.params[k])
 
   const propSortScore = (prop: string) => {
-    if (required.includes(prop)) return 100
+    if (required.includes(prop)) return 100 - ergonomicPropOrder.indexOf(prop)
     if (args.params[prop] !== undefined)
       return 50 - Object.keys(args.params).indexOf(prop)
     return ergonomicPropOrder.indexOf(prop)
   }
 
   const cmdPath = `/${args.command.join("/").replace(/-/g, "_")}`
+  const parameterSelectionMessage = args.isSubProperty
+    ? `Editing "${args.subPropertyPath}"`
+    : `[${cmdPath}] Parameters`
+
   console.log("")
   const { paramToEdit } = await prompts({
     name: "paramToEdit",
-    message: `[${cmdPath}] Parameters`,
+    message: parameterSelectionMessage,
     type: "autocomplete",
     choices: [
-      ...(haveAllRequiredParams
+      ...(haveAllRequiredParams && !args.isSubProperty
         ? [
             {
               value: "done",
               title: `[Make API Call] ${cmdPath}`,
+            },
+          ]
+        : []),
+      ...(haveAllRequiredParams && args.isSubProperty
+        ? [
+            {
+              title: `[Save]`,
+              value: "done",
             },
           ]
         : []),
@@ -71,13 +86,30 @@ export const interactForOpenApiObject = async (
             value: k,
             description:
               args.params[k] !== undefined
-                ? `[${args.params[k]}] ${propDesc}`
+                ? typeof args.params[k] === "object"
+                  ? `${ellipsis(
+                      JSON.stringify(args.params[k]),
+                      60
+                    )} ${propDesc}`
+                  : `[${args.params[k]}] ${propDesc}`
                 : propDesc,
           }
         })
         .sort((a, b) => propSortScore(b.value) - propSortScore(a.value)),
+      ...(args.isSubProperty
+        ? [
+            {
+              title: `[Leave Empty]`,
+              value: "empty",
+            },
+          ]
+        : []),
     ],
   })
+
+  if (paramToEdit === "empty") {
+    return undefined
+  }
 
   if (paramToEdit === "done") {
     // TODO check for required
@@ -179,14 +211,15 @@ export const interactForOpenApiObject = async (
     } else if (prop.type === "object") {
       args.params[paramToEdit] = await interactForOpenApiObject(
         {
-          ...args,
+          command: args.command,
+          params: {},
           schema: prop,
           isSubProperty: true,
-          allowExitBeforeComplete: true,
           subPropertyPath: paramToEdit,
         },
         ctx
       )
+      return interactForOpenApiObject(args, ctx)
     }
   }
 

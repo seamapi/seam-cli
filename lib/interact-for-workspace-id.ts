@@ -4,7 +4,6 @@ import { getSeamMultiWorkspace } from "./get-seam"
 
 export const interactForWorkspaceId = async () => {
   const config = getConfigStore()
-
   const seam = await getSeamMultiWorkspace()
   const workspaces = await seam.workspaces.list()
 

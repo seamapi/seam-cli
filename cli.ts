@@ -66,6 +66,12 @@ const sections = [
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
 
+  if (args.help || args.h) {
+    const usage = commandLineUsage(sections)
+    console.log(usage)
+    return
+  }
+  
   if (
     !config.get(`${getServer()}.pat`) &&
     args._[0] !== "login" &&
@@ -73,12 +79,6 @@ async function cli(args: ParsedArgs) {
   ) {
     console.log(`Not logged in. Please run "seam login"`)
     process.exit(1)
-  }
-
-  if (args.help || args.h) {
-    const usage = commandLineUsage(sections)
-    console.log(usage)
-    return
   }
 
   if (args.version) {

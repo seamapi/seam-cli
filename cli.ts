@@ -64,6 +64,12 @@ const sections = [
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
 
+  if (args.help || args.h) {
+    const usage = commandLineUsage(sections)
+    console.log(usage)
+    return
+  }
+  
   if (
     !config.get(`${getServer()}.pat`) &&
     args._[0] !== "login" &&
@@ -71,12 +77,6 @@ async function cli(args: ParsedArgs) {
   ) {
     console.log(`Not logged in. Please run "seam login"`)
     process.exit(1)
-  }
-
-  if (args.help || args.h) {
-    const usage = commandLineUsage(sections)
-    console.log(usage)
-    return
   }
 
   if (args.version) {
@@ -141,6 +141,13 @@ async function cli(args: ParsedArgs) {
     }
     await interactForServerSelection()
     return
+  }
+
+  // TODO - do this using the OpenAPI spec for the command rather than
+  // explicitly encoding the property names
+  if (commandParams.accepted_providers) {
+    commandParams.accepted_providers =
+      commandParams.accepted_providers.split(",")
   }
 
   const params = await interactForCommandParams(

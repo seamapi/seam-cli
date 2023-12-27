@@ -2,7 +2,7 @@
   "name": "seam-cli",
   "module": "index.ts",
   "type": "module",
-  "version": "0.0.22",
+  "version": "0.0.26",
   "repository": "git@github.com:seamapi/seam-cli.git",
   "scripts": {
     "cli": "tsx ./cli.ts",
@@ -53,8 +53,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@seamapi/http": "^0.11.1",
-    "@seamapi/types": "^1.67.0",
+    "@seamapi/http": "^0.12.0",
+    "@seamapi/types": "^1.70.0",
     "swagger-parser": "^10.0.3"
   }
 }

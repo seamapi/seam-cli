@@ -1,11 +1,11 @@
 import { getConfigStore } from "./get-config-store"
 import prompts from "prompts"
-import { getSeamMultiWorkspace } from "./get-seam"
+import { getSeam, getSeamMultiWorkspace } from "./get-seam"
 
 export const interactForWorkspaceId = async () => {
   const config = getConfigStore()
-
   const seam = await getSeamMultiWorkspace()
+
   const workspaces = await seam.workspaces.list()
 
   const { workspaceId } = await prompts({

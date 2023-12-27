@@ -13,7 +13,9 @@ export const getApiDefinitions = async (
   return SwaggerParser.dereference(schema as unknown as OpenAPI.Document)
 }
 
-const getSchema = async (useRemoteDefinitions: boolean): typeof openapi => {
+const getSchema = async (
+  useRemoteDefinitions: boolean
+): Promise<typeof openapi> => {
   if (!useRemoteDefinitions) return openapi
   const endpoint = getServer()
   return getOpenapiSchema(endpoint)

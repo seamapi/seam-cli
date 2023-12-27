@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import isEqual from "lodash/isEqual"
-import { getCommandOpenApiDef } from "./lib/get-command-open-api-def"
 import { getConfigStore } from "./lib/get-config-store"
 import { interactForCommandParams } from "./lib/interact-for-command-params"
 import { interactForCommandSelection } from "./lib/interact-for-command-selection"
@@ -12,7 +11,6 @@ import chalk from "chalk"
 import { interactForServerSelection } from "./lib/interact-for-server-selection"
 import { getServer } from "./lib/get-server"
 import prompts from "prompts"
-import { pollActionAttemptUntilReady } from "./lib/util/poll-action-attempt-until-ready"
 import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
@@ -181,8 +179,10 @@ async function cli(args: ParsedArgs) {
     })
 
     if (poll_for_action_attempt) {
-      await pollActionAttemptUntilReady(
-        response.data.action_attempt.action_attempt_id
+      const { action_attempt_id } = response.data.action_attempt
+      await seam.actionAttempts.get(
+        { action_attempt_id },
+        { waitForActionAttempt: { pollingInterval: 240, timeout: 10_000 } }
       )
     }
   }

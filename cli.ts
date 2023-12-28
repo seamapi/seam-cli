@@ -17,6 +17,7 @@ import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
+import handleNonInteractiveCommand from "./lib/handle-non-interactive-command"
 
 const sections = [
   {
@@ -79,6 +80,14 @@ async function cli(args: ParsedArgs) {
     console.log(usage)
     return
   }
+
+  if (args.y) {
+    const yIndex = process.argv.indexOf('-y')
+    const commands = process.argv.slice(yIndex + 1)
+    handleNonInteractiveCommand(commands, args, config)
+    return
+  }
+
 
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))
 

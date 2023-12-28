@@ -16,6 +16,8 @@ import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
 import { version } from './package.json';
+import open from "open"
+import clipboardy from "clipboardy"
 
 const sections = [
   {
@@ -167,6 +169,33 @@ async function cli(args: ParsedArgs) {
   })
 
   logResponse(response)
+
+  if (isEqual(selectedCommand, ["connect-webviews", "create"])) {
+    if (response.data && response.data.connect_webview && response.data.connect_webview.url) {
+      const url = response.data.connect_webview.url;
+      
+      if (process.env.INSIDE_WEB_BROWSER !== '1') {
+        const { action } = await prompts({
+          type: 'select',
+          name: 'action',
+          message: 'What do you want to do with the connect webview URL?',
+          choices: [
+            { title: 'Open in browser', value: 'open' },
+            { title: 'Copy to clipboard', value: 'copy' },
+          ],
+        });
+  
+        if (action === 'open') {
+          await open(url);
+        } else if (action === 'copy') {
+          clipboardy.writeSync(url);
+          console.log('URL copied to clipboard!');
+        }
+      } else {
+        console.log("Running in a web browser. Prompting is skipped.");
+      }
+    }
+  }
 
   if ("action_attempt" in response.data) {
     const { poll_for_action_attempt } = await prompts({

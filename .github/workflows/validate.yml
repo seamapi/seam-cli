@@ -4,6 +4,7 @@ on:
     branches:
       - "**" # all branches
       - "!main"
+      - "!static-tools" # will remove in separate PR once merged
   pull_request:
     branches:
       - main

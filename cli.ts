@@ -15,7 +15,8 @@ import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
-import { version } from './package.json';
+import { version } from "./package.json"
+import open from "open"
 
 const sections = [
   {
@@ -69,7 +70,7 @@ async function cli(args: ParsedArgs) {
     console.log(usage)
     return
   }
-  
+
   if (
     !config.get(`${getServer()}.pat`) &&
     args._[0] !== "login" &&
@@ -167,6 +168,30 @@ async function cli(args: ParsedArgs) {
   })
 
   logResponse(response)
+
+  if (response.data.connect_webview) {
+    if (
+      response.data &&
+      response.data.connect_webview &&
+      response.data.connect_webview.url
+    ) {
+      const url = response.data.connect_webview.url
+
+      if (process.env.INSIDE_WEB_BROWSER !== "1") {
+        const { action } = await prompts({
+          type: "confirm",
+          name: "action",
+          message: "Would you like to open the webview in your browser?",
+        })
+
+        if (action) {
+          await open(url)
+        }
+      } else {
+        //TODO: Figure out how to open the webview in the browser
+      }
+    }
+  }
 
   if ("action_attempt" in response.data) {
     const { poll_for_action_attempt } = await prompts({

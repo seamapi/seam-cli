@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import isEqual from "lodash/isEqual"
-import { getCommandOpenApiDef } from "./lib/get-command-open-api-def"
 import { getConfigStore } from "./lib/get-config-store"
 import { interactForCommandParams } from "./lib/interact-for-command-params"
 import { interactForCommandSelection } from "./lib/interact-for-command-selection"
@@ -17,7 +16,6 @@ import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
-import handleNonInteractiveCommand from "./lib/handle-non-interactive-command"
 
 const sections = [
   {
@@ -81,14 +79,6 @@ async function cli(args: ParsedArgs) {
     return
   }
 
-  if (args.y) {
-    const yIndex = process.argv.indexOf('-y')
-    const commands = process.argv.slice(yIndex + 1)
-    handleNonInteractiveCommand(commands, args, config)
-    return
-  }
-
-
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))
 
   const api = await getApiDefinitions(args.remote_api_defs)
@@ -97,6 +87,7 @@ async function cli(args: ParsedArgs) {
 
   const ctx: ContextHelpers = {
     api,
+    prompts: args.y ? {} : prompts, 
   }
 
   for (const k in args) {

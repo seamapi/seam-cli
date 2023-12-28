@@ -1,5 +1,7 @@
-import { ApiDefinitions } from "./get-api-definitions"
+import { PromptObject } from "prompts";
+import { ApiDefinitions } from "./get-api-definitions";
 
 export interface ContextHelpers {
-  api: ApiDefinitions
+  api: ApiDefinitions;
+  prompts: {} | PromptObject<string>;
 }

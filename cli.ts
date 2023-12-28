@@ -15,9 +15,8 @@ import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
-import { version } from './package.json';
+import { version } from "./package.json"
 import open from "open"
-import clipboardy from "clipboardy"
 
 const sections = [
   {
@@ -71,7 +70,7 @@ async function cli(args: ParsedArgs) {
     console.log(usage)
     return
   }
-  
+
   if (
     !config.get(`${getServer()}.pat`) &&
     args._[0] !== "login" &&
@@ -170,29 +169,26 @@ async function cli(args: ParsedArgs) {
 
   logResponse(response)
 
-  if (isEqual(selectedCommand, ["connect-webviews", "create"])) {
-    if (response.data && response.data.connect_webview && response.data.connect_webview.url) {
-      const url = response.data.connect_webview.url;
-      
-      if (process.env.INSIDE_WEB_BROWSER !== '1') {
+  if (response.data.connect_webview) {
+    if (
+      response.data &&
+      response.data.connect_webview &&
+      response.data.connect_webview.url
+    ) {
+      const url = response.data.connect_webview.url
+
+      if (process.env.INSIDE_WEB_BROWSER !== "1") {
         const { action } = await prompts({
-          type: 'select',
-          name: 'action',
-          message: 'What do you want to do with the connect webview URL?',
-          choices: [
-            { title: 'Open in browser', value: 'open' },
-            { title: 'Copy to clipboard', value: 'copy' },
-          ],
-        });
-  
-        if (action === 'open') {
-          await open(url);
-        } else if (action === 'copy') {
-          clipboardy.writeSync(url);
-          console.log('URL copied to clipboard!');
+          type: "confirm",
+          name: "action",
+          message: "Would you like to open the webview in your browser?",
+        })
+
+        if (action) {
+          await open(url)
         }
       } else {
-        console.log("Running in a web browser. Prompting is skipped.");
+        //TODO: Figure out how to open the webview in the browser
       }
     }
   }

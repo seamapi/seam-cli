@@ -188,6 +188,8 @@ async function cli(args: ParsedArgs) {
   }
 }
 
+//test
+
 cli(parseArgs(process.argv.slice(2))).catch((e) => {
   console.log(chalk.red(`CLI Error: ${e.toString()}\n${e.stack}`))
   if (e.toString().includes("object Object")) {

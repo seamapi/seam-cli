@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import isEqual from "lodash/isEqual"
-import { getCommandOpenApiDef } from "./lib/get-command-open-api-def"
 import { getConfigStore } from "./lib/get-config-store"
 import { interactForCommandParams } from "./lib/interact-for-command-params"
 import { interactForCommandSelection } from "./lib/interact-for-command-selection"
@@ -12,12 +11,12 @@ import chalk from "chalk"
 import { interactForServerSelection } from "./lib/interact-for-server-selection"
 import { getServer } from "./lib/get-server"
 import prompts from "prompts"
-import { pollActionAttemptUntilReady } from "./lib/util/poll-action-attempt-until-ready"
 import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
-import { version } from './package.json';
+import { version } from "./package.json"
+import open from "open"
 
 const sections = [
   {
@@ -66,6 +65,12 @@ const sections = [
 async function cli(args: ParsedArgs) {
   const config = getConfigStore()
 
+  if (args.help || args.h) {
+    const usage = commandLineUsage(sections)
+    console.log(usage)
+    return
+  }
+
   if (
     !config.get(`${getServer()}.pat`) &&
     args._[0] !== "login" &&
@@ -73,12 +78,6 @@ async function cli(args: ParsedArgs) {
   ) {
     console.log(`Not logged in. Please run "seam login"`)
     process.exit(1)
-  }
-
-  if (args.help || args.h) {
-    const usage = commandLineUsage(sections)
-    console.log(usage)
-    return
   }
 
   if (args.version) {
@@ -170,6 +169,30 @@ async function cli(args: ParsedArgs) {
 
   logResponse(response)
 
+  if (response.data.connect_webview) {
+    if (
+      response.data &&
+      response.data.connect_webview &&
+      response.data.connect_webview.url
+    ) {
+      const url = response.data.connect_webview.url
+
+      if (process.env.INSIDE_WEB_BROWSER !== "1") {
+        const { action } = await prompts({
+          type: "confirm",
+          name: "action",
+          message: "Would you like to open the webview in your browser?",
+        })
+
+        if (action) {
+          await open(url)
+        }
+      } else {
+        //TODO: Figure out how to open the webview in the browser
+      }
+    }
+  }
+
   if ("action_attempt" in response.data) {
     const { poll_for_action_attempt } = await prompts({
       name: "poll_for_action_attempt",
@@ -181,8 +204,10 @@ async function cli(args: ParsedArgs) {
     })
 
     if (poll_for_action_attempt) {
-      await pollActionAttemptUntilReady(
-        response.data.action_attempt.action_attempt_id
+      const { action_attempt_id } = response.data.action_attempt
+      await seam.actionAttempts.get(
+        { action_attempt_id },
+        { waitForActionAttempt: { pollingInterval: 240, timeout: 10_000 } }
       )
     }
   }

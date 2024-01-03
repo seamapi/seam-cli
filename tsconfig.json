@@ -19,10 +19,5 @@
       "bun-types" // add Bun global
     ]
   },
-  "include": [
-    "lib/**/*.ts",
-    "cli.ts",
-    "index.ts",
-    "package.json"
-  ]
+  "include": ["lib/**/*.ts", "cli.ts", "index.ts", "package.json"]
 }

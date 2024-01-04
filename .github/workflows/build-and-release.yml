@@ -22,6 +22,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - name: Build the project
         run: npm run build

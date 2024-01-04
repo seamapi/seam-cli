@@ -35,11 +35,9 @@ jobs:
         run: npm run build:binaries
 
       - name: Get the version tag
-        id: get_version
-        run: echo "VERSION_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-      
+        run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
       - name: Create Release
-        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,8 +46,6 @@ jobs:
           release_name: Release ${{ env.VERSION_TAG }}
           draft: false
           prerelease: false
-
-
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1

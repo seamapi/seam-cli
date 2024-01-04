@@ -54,7 +54,8 @@
   },
   "dependencies": {
     "@seamapi/http": "^0.12.0",
-    "@seamapi/types": "^1.74.0",
+    "@seamapi/types": "^1.75.0",
+    "open": "^10.0.2",
     "swagger-parser": "^10.0.3"
   }
 }

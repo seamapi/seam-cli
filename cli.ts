@@ -16,7 +16,6 @@ import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
 import { version } from "./package.json"
-import open from "open"
 
 const sections = [
   {
@@ -185,6 +184,7 @@ async function cli(args: ParsedArgs) {
         })
 
         if (action) {
+          const { default: open } = await import("open")
           await open(url)
         }
       } else {

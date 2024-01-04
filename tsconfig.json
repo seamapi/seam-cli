@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "ES2015"
-    ],
+    "lib": ["ES2015"],
     "module": "ESNext",
     "target": "ES2015",
     "moduleResolution": "bundler",
@@ -21,10 +19,5 @@
       "bun-types" // add Bun global
     ]
   },
-  "include": [
-    "lib/**/*.ts",
-    "cli.ts",
-    "index.ts",
-    "package.json"
-  ]
+  "include": ["lib/**/*.ts", "cli.ts", "index.ts", "package.json"]
 }

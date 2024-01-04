@@ -128,9 +128,15 @@ export const interactForOpenApiObject = async (
     const connected_account_id = await interactForConnectedAccount()
     args.params[paramToEdit] = connected_account_id
     return interactForOpenApiObject(args, ctx)
-  } else if (paramToEdit === "user_identity_id") {
+  } else if (
+    paramToEdit === "user_identity_id" ||
+    paramToEdit === "user_identity_ids"
+  ) {
     const user_identity_id = await interactForUserIdentity()
-    args.params[paramToEdit] = user_identity_id
+    args.params[paramToEdit] =
+      paramToEdit === "user_identity_ids"
+        ? [user_identity_id]
+        : user_identity_id
     return interactForOpenApiObject(args, ctx)
   } else if (paramToEdit.endsWith("acs_system_id")) {
     args.params[paramToEdit] = await interactForAcsSystem()
@@ -207,6 +213,19 @@ export const interactForOpenApiObject = async (
         })
       ).value
       args.params[paramToEdit] = value
+      return interactForOpenApiObject(args, ctx)
+    } else if (
+      prop.type === "array" &&
+      (prop as any)?.items?.type === "string"
+    ) {
+      const value = (
+        await prompts({
+          name: "value",
+          message: `${paramToEdit}:`,
+          type: "text",
+        })
+      ).value
+      args.params[paramToEdit] = [value]
       return interactForOpenApiObject(args, ctx)
     } else if (prop.type === "object") {
       args.params[paramToEdit] = await interactForOpenApiObject(

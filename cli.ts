@@ -18,6 +18,8 @@ import { ContextHelpers } from "./lib/types"
 import { version } from "./package.json"
 import open from "open"
 
+//test
+
 const sections = [
   {
     header: "Seam CLI",

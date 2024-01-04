@@ -169,7 +169,7 @@ wget_download() {
   if [ -z "$security_flags" ] && [ "$component" = "Binary" ]; then
     log_debug "Skipping additional security flags that are unsupported by BusyBox wget"
     # log to stderr b/c this function's stdout is parsed
-    log_warning "This system's wget binary is provided by BusyBox. Doppler strongly suggests installing GNU wget, which provides additional security features."
+    log_warning "This system's wget binary is provided by BusyBox. We strongly suggests installing GNU wget, which provides additional security features."
   fi
 
   # allow wget to fail w/o exiting
@@ -223,12 +223,6 @@ check_http_status() {
     log ""
     log "$error"
 
-    if [ "$status_code" -eq 404 ]; then
-      log ""
-      log "Please report this issue:"
-      log "https://github.com/DopplerHQ/cli/issues/new?template=bug_report.md&title=[BUG]%20Unexpected%20404%20using%20CLI%20install%20script"
-    fi
-
     clean_exit 1
   fi
 }
@@ -265,9 +259,6 @@ case "$uname_os" in
   *MINGW64*) os="win" ;;
   *)
     log "ERROR: Unsupported OS '$uname_os'"
-    log ""
-    log "Please report this issue:"
-    log "https://github.com/DopplerHQ/cli/issues/new?template=bug_report.md&title=[BUG]%20Unsupported%20OS"
     clean_exit 1
     ;;
 esac
@@ -290,9 +281,6 @@ elif [ "$uname_machine" = "arm64" ] || [ "$uname_machine" = "aarch64" ]; then
   arch="arm64"
 else
   log "ERROR: Unsupported architecture '$uname_machine'"
-  log ""
-  log "Please report this issue:"
-  log "https://github.com/DopplerHQ/cli/issues/new?template=bug_report.md&title=[BUG]%20Unsupported%20architecture"
   clean_exit 1
 fi
 
@@ -309,7 +297,6 @@ fi
 log_debug "Detected format '$format'"
 
 url=https://github.com/seamapi/seam-cli/releases/download/v0.0.8/seam-$os
-key_url="https://$DOPPLER_DOMAIN/keys/public"
 
 
 set +e

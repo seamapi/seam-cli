@@ -2,7 +2,7 @@
   "name": "seam-cli",
   "module": "index.ts",
   "type": "module",
-"version": "0.0.27",
+  "version": "0.0.28",
   "homepage": "https://github.com/seamapi/seam-cli",
   "bugs": "https://github.com/seamapi/seam-cli/issues",
   "repository": "seamapi/seam-cli",

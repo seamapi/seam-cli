@@ -1,3 +1,21 @@
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# NOTICE:
+# The following was adapted from the original source, and includes modified changes.
+# Original source: https://github.com/DopplerHQ/cli/blob/08cd5113f646ed98d4ca806c204428c68a69b8a1/scripts/install.sh
+#
+
 #!/usr/bin/env sh
 
 set -e
@@ -169,7 +187,7 @@ wget_download() {
   if [ -z "$security_flags" ] && [ "$component" = "Binary" ]; then
     log_debug "Skipping additional security flags that are unsupported by BusyBox wget"
     # log to stderr b/c this function's stdout is parsed
-    log_warning "This system's wget binary is provided by BusyBox. Doppler strongly suggests installing GNU wget, which provides additional security features."
+    log_warning "This system's wget binary is provided by BusyBox. We strongly suggests installing GNU wget, which provides additional security features."
   fi
 
   # allow wget to fail w/o exiting
@@ -223,12 +241,6 @@ check_http_status() {
     log ""
     log "$error"
 
-    if [ "$status_code" -eq 404 ]; then
-      log ""
-      log "Please report this issue:"
-      log "https://github.com/DopplerHQ/cli/issues/new?template=bug_report.md&title=[BUG]%20Unexpected%20404%20using%20CLI%20install%20script"
-    fi
-
     clean_exit 1
   fi
 }
@@ -265,9 +277,6 @@ case "$uname_os" in
   *MINGW64*) os="win" ;;
   *)
     log "ERROR: Unsupported OS '$uname_os'"
-    log ""
-    log "Please report this issue:"
-    log "https://github.com/DopplerHQ/cli/issues/new?template=bug_report.md&title=[BUG]%20Unsupported%20OS"
     clean_exit 1
     ;;
 esac
@@ -290,9 +299,6 @@ elif [ "$uname_machine" = "arm64" ] || [ "$uname_machine" = "aarch64" ]; then
   arch="arm64"
 else
   log "ERROR: Unsupported architecture '$uname_machine'"
-  log ""
-  log "Please report this issue:"
-  log "https://github.com/DopplerHQ/cli/issues/new?template=bug_report.md&title=[BUG]%20Unsupported%20architecture"
   clean_exit 1
 fi
 
@@ -309,7 +315,6 @@ fi
 log_debug "Detected format '$format'"
 
 url=https://github.com/seamapi/seam-cli/releases/download/v0.0.8/seam-$os
-key_url="https://$DOPPLER_DOMAIN/keys/public"
 
 
 set +e

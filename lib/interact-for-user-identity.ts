@@ -11,7 +11,7 @@ export const interactForUserIdentity = async () => {
     type: "autocomplete",
     message: "Select a user_identity:",
     choices: uis.map((ui) => ({
-      title: `${ui.email_address} "${ui.first_name} ${ui.last_name}": ${ui.user_identity_key}`,
+      title: `${ui.email_address} "${ui.full_name}: ${ui.user_identity_key}`,
       value: ui.user_identity_id,
       description: ui.user_identity_id,
     })),

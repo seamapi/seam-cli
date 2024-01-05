@@ -13,7 +13,7 @@ inputs:
   registry_url:
     description: The Node.js package registry URL.
     required: false
-    default: https://npm.pkg.github.com
+    default: https://registry.npmjs.org
   install_dependencies:
     description: Install dependencies.
     required: false

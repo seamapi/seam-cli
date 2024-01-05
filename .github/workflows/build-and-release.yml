@@ -2,15 +2,14 @@ name: Build and Release
 
 on:
   push:
-    branches:
+    branches: 
       - issue-#12
     tags:
-      - 'v*'
+      - 'v0.0.*'
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -22,35 +21,34 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - name: Build the project
         run: npm run build
 
-      - name: Post Build
-        run: npm run postbuild
-
-      - name: Build Binaries
-        run: npm run build:binaries
+      - name: Build binaries with pkg
+        run: pkg .
 
       - name: Get the version tag
-        run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV        
+        id: get_version_tag
+        run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-      - name: Print VERSION_TAG
-        run: echo "VERSION_TAG=${VERSION_TAG}"
+      - name: Create Release
+        if: github.ref == 'refs/heads/main'
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.VERSION_TAG }}
+          release_name: Release ${{ env.VERSION_TAG }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Release (Dry Run)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && env.DRY_RUN == 'true'
-        run: echo "This is a dry run. The release would be created now."
-
-
-      # - name: Upload Release Asset
+      # - name: Upload binaries to the release
       #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #   with:
       #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./bin/seam.cjs
-      #     asset_name: seam-cli
+      #     asset_path: ./path-to-binary/binaries
+      #     asset_name: binary-name
       #     asset_content_type: application/octet-stream
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

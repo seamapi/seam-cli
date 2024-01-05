@@ -34,19 +34,21 @@ jobs:
         run: pkg . --out-path ./binaries
 
       - name: Get the version tag
-        id: get_version_tag
         run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-      - name: Create Release
-        if: github.ref == 'refs/heads/main'
-        uses: actions/create-release@v1
-        with:
-          tag_name: ${{ env.VERSION_TAG }}
-          release_name: Release ${{ env.VERSION_TAG }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Dry Run - Print the release version
+        run: echo "Dry Run - Release version ${{ env.VERSION_TAG }}"
+
+      # - name: Create Release
+      #   if: github.ref == 'refs/heads/main'
+      #   uses: actions/create-release@v1
+      #   with:
+      #     tag_name: ${{ env.VERSION_TAG }}
+      #     release_name: Release ${{ env.VERSION_TAG }}
+      #     draft: false
+      #     prerelease: false
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Upload binaries to the release
       #   uses: actions/upload-release-asset@v1

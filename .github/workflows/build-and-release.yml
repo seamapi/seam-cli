@@ -21,12 +21,17 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+      - name: Install pkg
+        run: npm install -g pkg
 
       - name: Build the project
         run: npm run build
 
       - name: Build binaries with pkg
-        run: pkg .
+        run: pkg . --out-path ./binaries
 
       - name: Get the version tag
         id: get_version_tag

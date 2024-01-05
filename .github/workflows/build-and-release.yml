@@ -37,6 +37,9 @@ jobs:
       - name: Get the version tag
         run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV        
 
+      - name: Print VERSION_TAG
+        run: echo "VERSION_TAG=${VERSION_TAG}"
+
       - name: Create Release
         uses: actions/create-release@v1
         env:

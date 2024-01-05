@@ -95,6 +95,7 @@ async function cli(args: ParsedArgs) {
 
   const ctx: ContextHelpers = {
     api,
+    prompts: args.y ? {} : prompts, 
   }
 
   for (const k in args) {

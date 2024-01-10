@@ -38,11 +38,12 @@ jobs:
 
       - name: Get the version from package.json
         run: |
-          echo "VERSION_TAG=$(jq -r '.version' package.json)" >> $GITHUB_ENV
-          echo "RELEASING VERSION $(jq -r '.version' package.json)"
+          export VERSION_TAG=$(jq -r '.version' package.json)
+          echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_ENV
+          echo "RELEASING VERSION $VERSION_TAG"
 
       - name: Create Release
-        if: github.ref == 'refs/heads/main'
+        # if: github.ref == 'refs/heads/main'
         uses: actions/create-release@v1
         with:
           tag_name: ${{ env.VERSION_TAG }}
@@ -52,11 +53,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Upload binaries to the release
-      #   uses: actions/upload-release-asset@v1
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./path-to-binary/binaries
-      #     asset_name: binary-name
-      #     asset_content_type: application/octet-stream
-      #   env:
+      - name: Upload Linux Binary (x64)
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bin/seam-linux-x64
+          asset_name: seam-linux-x64-${{ env.VERSION_TAG }}
+          asset_content_type: application/octet-stream
+      - name: Upload MacOS Binary (x64)
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bin/seam-macos-x64
+          asset_name: seam-macos-x64-${{ env.VERSION_TAG }}
+          asset_content_type: application/octet-stream
+      - name: Upload MacOS Binary (arm64)
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bin/seam-macos-arm64
+          asset_name: seam-macos-arm64-${{ env.VERSION_TAG }}
+          asset_content_type: application/octet-stream
+      - name: Upload Windows Binary (x64)
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bin/seam-win-x64.exe
+          asset_name: seam-win-x64-${{ env.VERSION_TAG }}
+          asset_content_type: application/octet-stream

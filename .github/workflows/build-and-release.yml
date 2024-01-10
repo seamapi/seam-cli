@@ -43,6 +43,7 @@ jobs:
           echo "RELEASING VERSION $VERSION_TAG"
 
       - name: Create Release
+        id: create_release
         # if: github.ref == 'refs/heads/main'
         uses: actions/create-release@v1
         with:

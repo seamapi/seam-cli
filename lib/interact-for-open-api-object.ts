@@ -200,32 +200,43 @@ export const interactForOpenApiObject = async (
       args.params[paramToEdit] = value
 
       return interactForOpenApiObject(args, ctx)
-    } else if (prop.type === "array" && (prop as any)?.items?.enum) {
-      const value = (
-        await prompts({
-          name: "value",
-          message: `${paramToEdit}:`,
-          type: "autocompleteMultiselect",
-          choices: (prop as any).items.enum.map((v: string) => ({
-            title: v.toString(),
-            value: v.toString(),
-          })),
-        })
-      ).value
+    } else if (prop.type === "array") {
+      if (
+        (prop as any)?.items?.type === "string" &&
+        !(prop as any)?.items?.enum
+      ) {
+        let values = []
+        console.log(
+          `Enter multiple values for ${paramToEdit}, leave empty when done.`
+        )
+        while (true) {
+          const { value } = await prompts({
+            name: "value",
+            message: `${paramToEdit}:`,
+            type: "text",
+          })
+
+          if (value) {
+            values.push(value)
+          } else {
+            break
+          }
+        }
+
+        args.params[paramToEdit] = values
+        return interactForOpenApiObject(args, ctx)
+      }
+    } else if ((prop as any)?.items?.enum) {
+      const { value } = await prompts({
+        name: "value",
+        message: `${paramToEdit}:`,
+        type: "autocompleteMultiselect",
+        choices: (prop as any).items.enum.map((v: string) => ({
+          title: v,
+          value: v,
+        })),
+      })
       args.params[paramToEdit] = value
-      return interactForOpenApiObject(args, ctx)
-    } else if (
-      prop.type === "array" &&
-      (prop as any)?.items?.type === "string"
-    ) {
-      const value = (
-        await prompts({
-          name: "value",
-          message: `${paramToEdit}:`,
-          type: "text",
-        })
-      ).value
-      args.params[paramToEdit] = [value]
       return interactForOpenApiObject(args, ctx)
     } else if (prop.type === "object") {
       args.params[paramToEdit] = await interactForOpenApiObject(

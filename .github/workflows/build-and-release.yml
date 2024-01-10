@@ -3,9 +3,12 @@ name: Build and Release
 on:
   push:
     branches:
-      - issue-#12
+      - issue-#12 # TODO remove
     tags:
-      - "&*.*.*"
+      - "v*.*.*"
+  pull_request:
+    branches:
+      - issue-#12 # TODO remove
 
 jobs:
   build-and-release:

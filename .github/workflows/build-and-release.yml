@@ -39,7 +39,7 @@ jobs:
       - name: Get the version from package.json
         run: |
           echo "VERSION_TAG=$(jq -r '.version' package.json)" >> $GITHUB_ENV
-          echo "RELEASING VERSION $VERSION_TAG"
+          echo "RELEASING VERSION $(jq -r '.version' package.json)"
 
       - name: Create Release
         if: github.ref == 'refs/heads/main'

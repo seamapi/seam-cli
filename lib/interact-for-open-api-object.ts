@@ -13,6 +13,7 @@ import { interactForCredentialPool } from "./interact-for-credential-pool"
 import { ContextHelpers } from "./types"
 import { interactForAcsEntrance } from "./interact-for-acs-entrance"
 import { ellipsis } from "./util/ellipsis"
+import { interactForArray } from "./interact-for-array"
 
 const ergonomicPropOrder = [
   "name",
@@ -214,18 +215,11 @@ export const interactForOpenApiObject = async (
       ).value
       args.params[paramToEdit] = value
       return interactForOpenApiObject(args, ctx)
-    } else if (
-      prop.type === "array" &&
-      (prop as any)?.items?.type === "string"
-    ) {
-      const value = (
-        await prompts({
-          name: "value",
-          message: `${paramToEdit}:`,
-          type: "text",
-        })
-      ).value
-      args.params[paramToEdit] = [value]
+    } else if (prop.type === "array") {
+      args.params[paramToEdit] = await interactForArray(
+        args.params[paramToEdit] || [],
+        `Edit the list for ${paramToEdit}`
+      )
       return interactForOpenApiObject(args, ctx)
     } else if (prop.type === "object") {
       args.params[paramToEdit] = await interactForOpenApiObject(

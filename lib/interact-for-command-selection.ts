@@ -25,6 +25,7 @@ export async function interactForCommandSelection(
       ["login"],
       ["logout"],
       ["config", "reveal-location"],
+      ["config", "use-remote-api-defs"],
       ["select", "workspace"],
       ["select", "server"],
     ])

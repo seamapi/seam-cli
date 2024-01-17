@@ -16,6 +16,7 @@ import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
 import { version } from "./package.json"
+import { interactForUseRemoteApiDefs } from "./lib/interact-for-use-remote-api-defs"
 
 const sections = [
   {
@@ -89,7 +90,10 @@ async function cli(args: ParsedArgs) {
     args[k.toLowerCase().replace(/-/g, "_")] = args[k]
   }
 
-  const api = await getApiDefinitions(args.remote_api_defs)
+  const use_remote_api_defs =
+    args.remote_api_defs ?? config.get("use_remote_api_defs")
+
+  const api = await getApiDefinitions(use_remote_api_defs ?? false)
 
   const commandParams: Record<string, any> = {}
 
@@ -129,6 +133,9 @@ async function cli(args: ParsedArgs) {
     return
   } else if (isEqual(selectedCommand, ["config", "reveal-location"])) {
     console.log(config.path)
+    return
+  } else if (isEqual(selectedCommand, ["config", "use-remote-api-defs"])) {
+    await interactForUseRemoteApiDefs()
     return
   } else if (isEqual(selectedCommand, ["select", "workspace"])) {
     await interactForWorkspaceId()

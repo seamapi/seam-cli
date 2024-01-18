@@ -6,11 +6,7 @@ A command line for interacting with [the Seam API](https://seam.co)
 
 ## Installation
 
-```bash
-curl #... TODO
-```
-
-or for npm uses
+For npm users:
 
 ```bash
 npm install -g seam-cli

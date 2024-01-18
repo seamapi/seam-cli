@@ -2,7 +2,7 @@
 
 # seam-cli - Seam Command Line Interface
 
-A command line for interacting with [the Seam API](https://seam.co), create a free account [at console.seam.co](https://console.seam.co)
+A command line for interacting with [the Seam API](https://seam.co), create a [free account at console.seam.co](https://console.seam.co)
 
 ## Installation
 

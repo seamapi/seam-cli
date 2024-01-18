@@ -18,4 +18,5 @@ jobs:
       - run: pver release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SEAMAPI_NPM_TOKEN }}
+          # Make sure seambot is configured to bypass branch protection
           GITHUB_TOKEN: ${{ secrets.BOT_GH_TOKEN }}

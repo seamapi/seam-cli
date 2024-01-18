@@ -1,6 +1,4 @@
-
 ![seam-cli-chromatic-dark-blog-cover-repo](https://github.com/seamapi/seam-cli/assets/852751/e63bbaaa-d8a9-4417-ac69-d21b172e6de6)
-
 
 # seam-cli - Seam Command Line Interface
 

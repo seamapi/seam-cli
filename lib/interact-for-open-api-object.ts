@@ -14,6 +14,7 @@ import { ContextHelpers } from "./types"
 import { interactForAcsEntrance } from "./interact-for-acs-entrance"
 import { ellipsis } from "./util/ellipsis"
 import { interactForArray } from "./interact-for-array"
+import { interactForCustomMetadata } from "./interact-for-custom-metadata"
 
 const ergonomicPropOrder = [
   "name",
@@ -160,7 +161,12 @@ export const interactForOpenApiObject = async (
   ) {
     args.params[paramToEdit] = await interactForTimestamp()
     return interactForOpenApiObject(args, ctx)
-  }
+  } else if (
+    paramToEdit === "custom_metadata"
+) {
+  args.params[paramToEdit] = await interactForCustomMetadata( args.params[paramToEdit] || {})
+  return interactForOpenApiObject(args, ctx)
+}
 
   if ("type" in prop) {
     if (prop.type === "string") {

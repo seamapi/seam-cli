@@ -74,6 +74,22 @@ export const interactForOpenApiObject = async (
       ...(haveAllRequiredParams && args.isSubProperty
         ? [
             {
+              title: `[Set Property]`,
+              value: "set_property",
+            },
+          ]
+        : []),
+      ...(haveAllRequiredParams && args.isSubProperty
+        ? [
+            {
+              title: `[Remove Property]`,
+              value: "remove_property",
+            },
+          ]
+        : []),
+      ...(haveAllRequiredParams && args.isSubProperty
+        ? [
+            {
               title: `[Save]`,
               value: "done",
             },
@@ -107,6 +123,48 @@ export const interactForOpenApiObject = async (
         : []),
     ],
   })
+
+  if (paramToEdit === "set_property") {
+    const name = (
+      await prompts({
+        name: "value",
+        message: "property?",
+        type: "text",
+      })
+    ).value
+
+    const value = (
+      await prompts({
+        name: "value",
+        message: "value?",
+        type: "text",
+      })
+    ).value
+
+    args.params[name] = value
+
+    return {
+      ...args.params,
+      [name]: value,
+    }
+  }
+
+  if (paramToEdit === "remove_property") {
+    const name = (
+      await prompts({
+        name: "value",
+        message: "name?",
+        type: "text",
+      })
+    ).value
+
+    const { [name]: _, ...otherParams } = args.params
+    return otherParams
+  }
+
+  if (paramToEdit === undefined) {
+    return args.params
+  }
 
   if (paramToEdit === "empty") {
     return undefined
@@ -225,7 +283,7 @@ export const interactForOpenApiObject = async (
       args.params[paramToEdit] = await interactForOpenApiObject(
         {
           command: args.command,
-          params: {},
+          params: args.params[paramToEdit] ?? {},
           schema: prop,
           isSubProperty: true,
           subPropertyPath: paramToEdit,

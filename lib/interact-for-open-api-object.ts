@@ -161,12 +161,12 @@ export const interactForOpenApiObject = async (
   ) {
     args.params[paramToEdit] = await interactForTimestamp()
     return interactForOpenApiObject(args, ctx)
-  } else if (
-    paramToEdit === "custom_metadata"
-) {
-  args.params[paramToEdit] = await interactForCustomMetadata( args.params[paramToEdit] || {})
-  return interactForOpenApiObject(args, ctx)
-}
+  } else if (paramToEdit === "custom_metadata") {
+    args.params[paramToEdit] = await interactForCustomMetadata(
+      args.params[paramToEdit] || {}
+    )
+    return interactForOpenApiObject(args, ctx)
+  }
 
   if ("type" in prop) {
     if (prop.type === "string") {

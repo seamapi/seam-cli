@@ -124,6 +124,19 @@ export const interactForOpenApiObject = async (
     ],
   })
 
+  if (paramToEdit === undefined) {
+    return args.params
+  }
+
+  if (paramToEdit === "empty") {
+    return undefined
+  }
+
+  if (paramToEdit === "done") {
+    // TODO check for required
+    return args.params
+  }
+
   if (paramToEdit === "set_property") {
     const name = (
       await prompts({
@@ -160,19 +173,6 @@ export const interactForOpenApiObject = async (
 
     const { [name]: _, ...otherParams } = args.params
     return otherParams
-  }
-
-  if (paramToEdit === undefined) {
-    return args.params
-  }
-
-  if (paramToEdit === "empty") {
-    return undefined
-  }
-
-  if (paramToEdit === "done") {
-    // TODO check for required
-    return args.params
   }
 
   const prop = properties[paramToEdit]

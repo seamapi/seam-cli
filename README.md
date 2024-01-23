@@ -12,6 +12,13 @@ For npm users:
 npm install -g seam-cli
 ```
 
+For brew users:
+
+```bash
+brew tap seamapi/homebrew-seam
+brew install seam
+```
+
 ## Usage
 
 Every `seam` command is interactive and will prompt you for any missing

@@ -105,6 +105,10 @@ export const interactForOpenApiObject = async (
             },
           ]
         : []),
+      {
+        title: `[Back]`,
+        value: "back",
+      },
     ],
   })
 
@@ -115,6 +119,14 @@ export const interactForOpenApiObject = async (
   if (paramToEdit === "done") {
     // TODO check for required
     return args.params
+  }
+
+  if (paramToEdit === "back") {
+    if (args.subPropertyPath) {
+      return args.params
+    }
+
+    return "[Back]"
   }
 
   const prop = properties[paramToEdit]

@@ -157,10 +157,29 @@ async function cli(args: ParsedArgs) {
       commandParams.accepted_providers.split(",")
   }
 
+  // Hit 'back' on a top-level command path, so we start again
+  const lastCommandPath = selectedCommand.slice(-1)[0]
+  if (lastCommandPath === "[Back]") {
+    return await cli({
+      ...args,
+      _: [],
+    })
+  }
+
   const params = await interactForCommandParams(
     { command: selectedCommand, params: commandParams },
     ctx
   )
+
+  if (params === "[Back]") {
+    const previousCommands = [...selectedCommand]
+    previousCommands.pop()
+    return await cli({
+      ...args,
+      _: previousCommands,
+    })
+  }
+
   const seam = await getSeam()
 
   const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`

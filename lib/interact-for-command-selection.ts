@@ -30,6 +30,12 @@ export async function interactForCommandSelection(
       ["select", "server"],
     ])
 
+  // Add dynamic 'back' command for sub-commands to allow returning
+  // to previous level.
+  if (commandPath.length > 0) {
+    commands.push([...commandPath, "[Back]"])
+  }
+
   const possibleCommands = uniqBy(
     commandPath.length === 0
       ? commands

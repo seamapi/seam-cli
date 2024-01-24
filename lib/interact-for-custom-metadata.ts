@@ -8,7 +8,7 @@ export const interactForCustomMetadata = async (
   const updated_custom_metadata = { ...custom_metadata }
 
   const displayCurrentCustomMetadata = () => {
-    console.log("Current custom metadata.")
+    console.log("custom_metadata:")
     if (Object.keys(updated_custom_metadata).length > 0) {
       Object.keys(updated_custom_metadata).forEach((key, index) => {
         console.log(`${index + 1}: ${key}: ${updated_custom_metadata[key]}`)

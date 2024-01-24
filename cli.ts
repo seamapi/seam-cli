@@ -71,6 +71,11 @@ async function cli(args: ParsedArgs) {
     return
   }
 
+  if (args.version) {
+    console.log(version)
+    process.exit(0)
+  }
+
   if (
     !config.get(`${getServer()}.pat`) &&
     args._[0] !== "login" &&
@@ -78,11 +83,6 @@ async function cli(args: ParsedArgs) {
   ) {
     console.log(`Not logged in. Please run "seam login"`)
     process.exit(1)
-  }
-
-  if (args.version) {
-    console.log(version)
-    process.exit(0)
   }
 
   args._ = args._.map((arg) => arg.toLowerCase().replace(/_/g, "-"))

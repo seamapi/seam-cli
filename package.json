@@ -2,7 +2,7 @@
   "name": "seam-cli",
   "module": "index.ts",
   "type": "module",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "repository": "git@github.com:seamapi/seam-cli.git",
   "scripts": {
     "cli": "tsx ./cli.ts",

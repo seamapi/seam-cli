@@ -17,6 +17,7 @@ import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
 import { version } from "./package.json"
 import { interactForUseRemoteApiDefs } from "./lib/interact-for-use-remote-api-defs"
+import { randomBytes } from "node:crypto"
 
 const sections = [
   {
@@ -74,6 +75,22 @@ async function cli(args: ParsedArgs) {
   if (args.version) {
     console.log(version)
     process.exit(0)
+  }
+
+  if (
+    args._[0] === "config" &&
+    args._[1] === "set" &&
+    args._[2] === "fake-server"
+  ) {
+    const randomstring = randomBytes(5).toString("hex")
+    const fakeApiUrl = `https://${randomstring}.fakeseamconnect.seam.vc`
+
+    config.set("server", fakeApiUrl)
+    console.log(`Server URL set to ${fakeApiUrl}`)
+
+    config.set(`${getServer()}.pat`, `seam_apikey1_token`)
+    console.log(`PAT set to use fakeseamconnect with "seam_apikey1_token"`)
+    return
   }
 
   if (

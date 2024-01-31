@@ -87,16 +87,9 @@ async function cli(args: ParsedArgs) {
 
     config.set("server", fakeApiUrl)
     console.log(`Server URL set to ${fakeApiUrl}`)
-    return
-  }
 
-  if (
-    args._[0] === "config" &&
-    args._[1] === "set" &&
-    args._[2] === "fake-api-key"
-  ) {
     config.set(`${getServer()}.pat`, `seam_apikey1_token`)
-    console.log(`Server URL set to fakeseamconnect "seam_apikey1_token"`)
+    console.log(`PAT set to use fakeseamconnect with "seam_apikey1_token"`)
     return
   }
 

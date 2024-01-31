@@ -77,7 +77,11 @@ async function cli(args: ParsedArgs) {
     process.exit(0)
   }
 
-  if (args._[0] === "config" && args._[1] === "set" && args._[2] === "server") {
+  if (
+    args._[0] === "config" &&
+    args._[1] === "set" &&
+    args._[2] === "fake-server"
+  ) {
     const randomstring = randomBytes(5).toString("hex")
     const fakeApiUrl = `https://${randomstring}.fakeseamconnect.seam.vc`
 
@@ -89,10 +93,10 @@ async function cli(args: ParsedArgs) {
   if (
     args._[0] === "config" &&
     args._[1] === "set" &&
-    args._[2] === "api-key"
+    args._[2] === "fake-api-key"
   ) {
     config.set(`${getServer()}.pat`, `seam_apikey1_token`)
-    console.log(`Server URL set to default token`)
+    console.log(`Server URL set to fakeseamconnect "seam_apikey1_token"`)
     return
   }
 

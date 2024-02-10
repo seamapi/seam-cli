@@ -30,11 +30,10 @@ export async function interactForServerSelection() {
       },
     ])
 
-    // if the user leaves the field empty, generate a random string
     if (userUrlSeed.trim().length === 0) {
       userUrlSeed = randomBytes(5).toString("hex")
     }
-    config.set(`https://${userUrlSeed}.fakeseamconnect.seam.vc`, server)
+    config.set("server", `https://${userUrlSeed}.fakeseamconnect.seam.vc`)
     config.set(`${getServer()}.pat`, `seam_apikey1_token`)
     console.log(`PAT set to use fakeseamconnect with "seam_apikey1_token"`)
   } else {

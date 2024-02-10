@@ -4,7 +4,11 @@ import { randomBytes } from "node:crypto"
 import { getServer } from "./get-server"
 
 export async function interactForServerSelection() {
-  const servers = ["http://localhost:3020", "https://connect.getseam.com", "https://fakeseamconnect.seam.vc"]
+  const servers = [
+    "http://localhost:3020",
+    "https://connect.getseam.com",
+    "https://fakeseamconnect.seam.vc",
+  ]
 
   const { server } = await prompts([
     {
@@ -21,7 +25,8 @@ export async function interactForServerSelection() {
       {
         type: "text",
         name: "userUrlSeed",
-        message: "You can input a custom server URL or leave this field empty to use a new fakeserver.",
+        message:
+          "You can input a custom server URL or leave this field empty to use a new fakeserver.",
       },
     ])
 

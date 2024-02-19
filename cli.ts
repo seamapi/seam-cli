@@ -157,6 +157,12 @@ async function cli(args: ParsedArgs) {
   } else if (isEqual(selectedCommand, ["select", "workspace"])) {
     await interactForWorkspaceId()
     return
+  } else if (isEqual(selectedCommand, ["events", "list"])) {
+    if (!commandParams.since) {
+      const date = new Date()
+      date.setMonth(date.getMonth() - 1)
+      commandParams.since = date.toISOString()
+    }
   } else if (isEqual(selectedCommand, ["select", "server"])) {
     if (args.server) {
       config.set("server", args.server)
@@ -166,7 +172,6 @@ async function cli(args: ParsedArgs) {
     await interactForServerSelection()
     return
   }
-
   // TODO - do this using the OpenAPI spec for the command rather than
   // explicitly encoding the property names
   if (commandParams.accepted_providers) {
@@ -200,6 +205,10 @@ async function cli(args: ParsedArgs) {
   const seam = await getSeam()
 
   const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`
+
+  if (apiPath.includes("/events/list") && params.between) {
+    delete params.since
+  }
 
   console.log(`\n\n${chalk.green(apiPath)}`)
   console.log(`Request Params:`)

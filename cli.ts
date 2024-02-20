@@ -18,6 +18,7 @@ import { ContextHelpers } from "./lib/types"
 import { version } from "./package.json"
 import { interactForUseRemoteApiDefs } from "./lib/interact-for-use-remote-api-defs"
 import { randomBytes } from "node:crypto"
+import { interactForActionAttemptPoll } from "./lib/interact-for-action-attempt-poll"
 
 const sections = [
   {
@@ -245,23 +246,12 @@ async function cli(args: ParsedArgs) {
     }
   }
 
-  if ("action_attempt" in response.data) {
-    const { poll_for_action_attempt } = await prompts({
-      name: "poll_for_action_attempt",
-      message: "Would you like to poll the action attempt until it's ready?",
-      type: "toggle",
-      initial: true,
-      active: "yes",
-      inactive: "no",
-    })
-
-    if (poll_for_action_attempt) {
-      const { action_attempt_id } = response.data.action_attempt
-      await seam.actionAttempts.get(
-        { action_attempt_id },
-        { waitForActionAttempt: { pollingInterval: 240, timeout: 10_000 } }
-      )
-    }
+  if (
+    response.data &&
+    typeof response.data === "object" &&
+    "action_attempt" in response.data
+  ) {
+    interactForActionAttemptPoll(response.data.action_attempt)
   }
 }
 

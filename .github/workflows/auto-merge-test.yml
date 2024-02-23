@@ -1,4 +1,4 @@
-name: Dependabot auto-approve and auto-merge
+name: Kainpets auto-approve and auto-merge test
 on: pull_request
 
 permissions:

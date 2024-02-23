@@ -1,25 +1,27 @@
-name: Kainpets auto-approve and auto-merge test
+name: Auto approve and merge
 on: pull_request
 
-permissions:
-  pull-requests: write
-
 jobs:
-  dependabot:
+  build:
+    name: Check author and merge
     runs-on: ubuntu-latest
-    if: github.actor == 'kainpets'
     steps:
-      - name: Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Auto approve
+        uses: hmarr/auto-approve-action@v2.0.0
+        if: github.event.pull_request.user.login == 'kainpets'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Approve a PR
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
       - name: Auto merge
-        uses: pascalgn/automerge-action@v0.14.3
+        uses: pascalgn/automerge-action@v0.13.1
+        if: github.event.pull_request.user.login == 'kainpets'
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: "automerge,!work in progress"
+          MERGE_METHOD: "squash"
+          MERGE_COMMIT_MESSAGE: "Automatic merge of PR from kainpets"
+          MERGE_FORKS: "false"
+          UPDATE_LABELS: ""

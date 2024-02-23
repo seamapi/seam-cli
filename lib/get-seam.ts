@@ -11,6 +11,7 @@ export const getSeam = async (): Promise<SeamHttp> => {
 
   const token = config.get(`${getServer()}.pat`)
 
+  
   const workspaceId = config.get("current_workspace_id")
 
   const options = { endpoint: getServer() }

@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@seamapi/http": "^0.18.1",
-    "open": "^10.0.3",
+    "open": "^10.0.4",
     "swagger-parser": "^10.0.3"
   }
 }

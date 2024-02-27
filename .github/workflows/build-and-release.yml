@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - sign_macos_binaries_in_workflow
+      - main
 
 jobs:
   build-and-release:
@@ -47,7 +47,7 @@ jobs:
 
       - name: Create Release
         id: create_release
-        if: github.ref == 'refs/heads/sign_macos_binaries_in_workflow'
+        if: github.ref == 'refs/heads/main'
         uses: actions/create-release@v1
         with:
           tag_name: ${{ env.VERSION_TAG }}

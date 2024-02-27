@@ -47,7 +47,7 @@ jobs:
 
       - name: Create Release
         id: create_release
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/sign_macos_binaries_in_workflow'
         uses: actions/create-release@v1
         with:
           tag_name: ${{ env.VERSION_TAG }}

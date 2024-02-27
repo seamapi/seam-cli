@@ -9,4 +9,8 @@ updates:
     allow:
       - dependency-name: "@seamapi/*"
     groups:
-      - name: "seamapi"
+      seam:
+        update-types:
+          - patch
+          - minor
+          - major

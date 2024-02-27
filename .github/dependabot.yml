@@ -8,9 +8,3 @@ updates:
     versioning-strategy: "auto"
     allow:
       - dependency-name: "@seamapi/*"
-    groups:
-      seam:
-        dependency-type: production
-        update-types:
-          - patch
-          - minor

@@ -8,3 +8,5 @@ updates:
     versioning-strategy: "auto"
     allow:
       - dependency-name: "@seamapi/*"
+    groups:
+      - name: "seamapi"

@@ -22,6 +22,14 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
+      - name: Install ldid
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev libplist-dev
+          git clone https://github.com/sbingner/ldid.git
+          make -C ldid
+          sudo cp -f ./ldid/ldid /usr/local/bin/
+
       - name: Build the project
         run: npm run build
 

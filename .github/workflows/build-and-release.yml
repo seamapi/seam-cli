@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - main
+      - sign_macos_binaries_in_workflow
 
 jobs:
   build-and-release:
@@ -21,6 +21,15 @@ jobs:
         run: npm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+      - name: Install ldid
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev
+          git clone https://github.com/sbingner/ldid.git
+          cd ldid
+          make -C ldid
+          sudo cp -f ./ldid/ldid /usr/local/bin/
 
       - name: Build the project
         run: npm run build

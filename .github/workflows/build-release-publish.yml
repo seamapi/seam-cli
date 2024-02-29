@@ -93,3 +93,20 @@ jobs:
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - run: npm install -g pver
+      - run: npm ci
+      - run: npm run build
+      - run: pver release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SEAMAPI_NPM_TOKEN }}
+          # Make sure seambot is configured to bypass branch protection and
+          # dismiss PR reviews
+          GITHUB_TOKEN: ${{ secrets.BOT_GH_TOKEN }}

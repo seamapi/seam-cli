@@ -43,6 +43,9 @@ jobs:
         run: |
           npm install -g pver
           pver release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SEAMAPI_NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_GH_TOKEN }}
 
       - name: Get the version from package.json
         run: |

@@ -39,6 +39,11 @@ jobs:
       - name: Install jq
         run: sudo apt-get install jq
 
+      - name: Install pver
+        run: |
+          npm install -g pver
+          pver release
+
       - name: Get the version from package.json
         run: |
           export VERSION_TAG=$(jq -r '.version' package.json)

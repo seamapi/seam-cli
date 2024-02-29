@@ -39,7 +39,7 @@ jobs:
       - name: Install jq
         run: sudo apt-get install jq
 
-      - name: Install pver
+      - name: Install pver and create new release
         run: |
           npm install -g pver
           pver release

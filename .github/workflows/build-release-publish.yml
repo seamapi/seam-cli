@@ -19,7 +19,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
@@ -43,6 +43,7 @@ jobs:
       - name: Install pver and create new release
         run: |
           npm install -g pver
+          git status
           pver release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SEAMAPI_NPM_TOKEN }}

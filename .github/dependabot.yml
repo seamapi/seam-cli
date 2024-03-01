@@ -6,14 +6,15 @@ updates:
       interval: "daily"
     target-branch: "main"
     versioning-strategy: "auto"
-    groups:
-      seam:
-        patterns:
-          - "@seamapi/*"
-        update-types:
-          - "minor"
-          - "patch"
+    allow:
+      - dependency-name: "@seamapi/*"
         dependency-type: "production"
     ignore:
       - dependency-name: "@seamapi/*"
         update-types: ["version-update:semver-major"]
+    groups:
+      seam:
+        dependency-type: production
+        update-types:
+          - patch
+          - minor

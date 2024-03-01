@@ -43,6 +43,7 @@ jobs:
       - name: Install pver and create new release
         run: |
           npm install -g pver
+          git status
           pver release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SEAMAPI_NPM_TOKEN }}

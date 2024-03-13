@@ -5,6 +5,8 @@ permissions:
   contents: write
   pull-requests: write
 
+  # This workflow enables auto-merge for Dependabot PRs
+  # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#enable-auto-merge-on-a-pull-request
 jobs:
   dependabot:
     runs-on: ubuntu-latest
@@ -15,13 +17,8 @@ jobs:
         uses: dependabot/fetch-metadata@v1
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Approve a PR
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Enable auto-merge for Dependabot PRs
-        if: contains(steps.metadata.outputs.dependency-names, '@seamapi/*')
+        if: contains(steps.metadata.outputs.dependency-names, '@seamapi/')
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}

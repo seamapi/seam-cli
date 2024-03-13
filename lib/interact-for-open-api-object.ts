@@ -46,6 +46,12 @@ export const interactForOpenApiObject = async (
 
   const haveAllRequiredParams = required.every((k) => args.params[k])
 
+  const should_auto_submit =
+    !ctx.is_interactive && haveAllRequiredParams && !args.isSubProperty
+  if (should_auto_submit) {
+    return args.params
+  }
+
   const propSortScore = (prop: string) => {
     if (required.includes(prop)) return 100 - ergonomicPropOrder.indexOf(prop)
     if (args.params[prop] !== undefined)

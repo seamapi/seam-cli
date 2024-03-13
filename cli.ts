@@ -115,8 +115,14 @@ async function cli(args: ParsedArgs) {
 
   const commandParams: Record<string, any> = {}
 
+  /**
+   * Whether or not to auto-select first option
+   */
+  const is_interactive = args.y !== true
+
   const ctx: ContextHelpers = {
     api,
+    is_interactive,
   }
 
   for (const k in args) {

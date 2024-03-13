@@ -251,6 +251,16 @@ export const interactForOpenApiObject = async (
         ctx
       )
       return interactForOpenApiObject(args, ctx)
+    } else if (prop.type === "number") {
+      const { value } = await prompts({
+        name: "value",
+        message: `${paramToEdit}:`,
+        type: "number",
+      })
+
+      args.params[paramToEdit] = value
+
+      return interactForOpenApiObject(args, ctx)
     }
   }
 

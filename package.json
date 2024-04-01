@@ -53,7 +53,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@seamapi/http": "^0.25.1",
+    "@seamapi/http": "^0.25.2",
     "@seamapi/types": "^1.146.0",
     "open": "^10.0.3",
     "swagger-parser": "^10.0.3"

@@ -5,7 +5,9 @@ export const interactForCustomMetadata = async (
   custom_metadata: CustomMetadata
 ) => {
   const seam = await getSeam()
-  const updated_custom_metadata: { [key: string]: string | boolean | null } = { ...custom_metadata }
+  const updated_custom_metadata: { [key: string]: string | boolean | null } = {
+    ...custom_metadata,
+  }
 
   const displayCurrentCustomMetadata = () => {
     console.log("custom_metadata:")

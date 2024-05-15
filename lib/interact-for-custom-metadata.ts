@@ -1,11 +1,16 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
 import { CustomMetadata } from "@seamapi/types/connect"
+
+type UpdatedCustomMetadata = {
+  [x: string]: string | boolean | null
+}
+
 export const interactForCustomMetadata = async (
   custom_metadata: CustomMetadata
 ) => {
   const seam = await getSeam()
-  const updated_custom_metadata = { ...custom_metadata }
+  const updated_custom_metadata: UpdatedCustomMetadata = { ...custom_metadata }
 
   const displayCurrentCustomMetadata = () => {
     console.log("custom_metadata:")

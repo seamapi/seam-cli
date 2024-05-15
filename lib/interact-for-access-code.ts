@@ -22,9 +22,9 @@ export const interactForAccessCode = async ({
     type: "autocomplete",
     message: "Select an access_code:",
     choices: accessCodes.map((ac: any) => ({
-      title: ac.properties.name ?? "<No Name>",
-      value: ac.access_code_id,
-      description: `${ac.type} ${ac.access_code_id}`,
+      title: ac?.properties?.name ?? "<No Name>",
+      value: ac?.access_code_id,
+      description: `${ac?.type} ${ac?.access_code_id}`,
     })),
   })
 

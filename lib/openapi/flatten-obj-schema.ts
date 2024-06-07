@@ -4,6 +4,7 @@ type AllOfSchema = any
 type ObjSchema = any
 type PrimitiveSchema = any
 type PropertySchema = any
+type ArraySchema = any
 
 import lodash from "lodash"
 
@@ -14,6 +15,9 @@ export const flattenObjSchema = (
     | ObjSchema
     | {
         oneOf: Array<ObjSchema>
+      }
+    | {
+        allOf: Array<ObjSchema>
       }
 ): ObjSchema => {
   if ("type" in s && s.type === "object") return s
@@ -40,6 +44,11 @@ export const flattenObjSchema = (
     }
     return super_obj as ObjSchema
   }
+
+  if ("allOf" in s) {
+    return deepFlattenAllOfSchema(s) as ObjSchema
+  }
+
   throw new Error(`Unknown schema type "${s.type}"`)
 }
 
@@ -58,7 +67,7 @@ export const deepFlattenAllOfSchema = (
 
   const properties: Record<string, PropertySchema[]> = {}
   const required = new Set<string>()
-  const primitives: PrimitiveSchema[] = []
+  const primitives: (PrimitiveSchema | ArraySchema)[] = []
 
   for (let subschema of s.allOf) {
     if ("allOf" in subschema) {
@@ -69,8 +78,11 @@ export const deepFlattenAllOfSchema = (
     }
 
     if ("oneOf" in subschema) {
-      console.error("oneOf not currently supported when flattening allOf")
-      continue
+      subschema = flattenObjSchema(
+        subschema as {
+          oneOf: Array<ObjSchema>
+        }
+      )
     }
 
     if ("$ref" in subschema) {

@@ -40,6 +40,11 @@ export const interactForOpenApiObject = async (
   // Clone args and args params so that we can mutate it
   args = { ...args, params: { ...args.params } }
 
+  if (!args.schema || typeof args.schema.type === 'undefined') {
+    console.error(`Schema type is undefined for command: ${args.command.join("/")}`)
+    return
+  }
+
   const schema: OpenApiSchema = flattenObjSchema(args.schema)
 
   const { properties = {}, required = [] } = schema

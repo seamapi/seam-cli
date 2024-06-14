@@ -28,6 +28,7 @@ export async function interactForCommandSelection(
       ["config", "use-remote-api-defs"],
       ["select", "workspace"],
       ["select", "server"],
+      ["health", "get_health"],
     ])
 
   const possibleCommands = uniqBy(

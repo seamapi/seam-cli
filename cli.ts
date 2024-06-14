@@ -177,7 +177,7 @@ async function cli(args: ParsedArgs) {
     }
     await interactForServerSelection()
     return
-  } else if (isEqual(selectedCommand, ["health", "get_health"])) {
+  } else if (isEqual(selectedCommand, ["health", "get-health"])) {
     await makeSeamApiRequest({
       path: "/health/get_health",
       params: {},

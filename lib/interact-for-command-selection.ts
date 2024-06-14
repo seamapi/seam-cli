@@ -28,7 +28,7 @@ export async function interactForCommandSelection(
       ["config", "use-remote-api-defs"],
       ["select", "workspace"],
       ["select", "server"],
-      ["health", "get_health"],
+      ["health", "get-health"],
     ])
 
   const possibleCommands = uniqBy(
@@ -39,6 +39,7 @@ export async function interactForCommandSelection(
         ),
     (v) => v[commandPath.length]
   )
+
   if (possibleCommands.length === 0) {
     throw new Error("No possible commands")
   }

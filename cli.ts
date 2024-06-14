@@ -6,12 +6,10 @@ import { interactForCommandSelection } from "./lib/interact-for-command-selectio
 import parseArgs, { ParsedArgs } from "minimist"
 import { interactForLogin } from "./lib/interact-for-login"
 import { interactForWorkspaceId } from "./lib/interact-for-workspace-id"
-import { getSeam } from "./lib/get-seam"
 import chalk from "chalk"
 import { interactForServerSelection } from "./lib/interact-for-server-selection"
 import { getServer } from "./lib/get-server"
 import prompts from "prompts"
-import logResponse from "./lib/util/log-response"
 import { getApiDefinitions } from "./lib/get-api-definitions"
 import commandLineUsage from "command-line-usage"
 import { ContextHelpers } from "./lib/types"
@@ -19,6 +17,7 @@ import { version } from "./package.json"
 import { interactForUseRemoteApiDefs } from "./lib/interact-for-use-remote-api-defs"
 import { randomBytes } from "node:crypto"
 import { interactForActionAttemptPoll } from "./lib/interact-for-action-attempt-poll"
+import { RequestSeamApi } from "./lib/util/request-seam-api"
 
 const sections = [
   {
@@ -178,6 +177,13 @@ async function cli(args: ParsedArgs) {
     }
     await interactForServerSelection()
     return
+  } else if (isEqual(selectedCommand, ["health", "get-health"])) {
+    await RequestSeamApi({
+      path: "/health/get_health",
+      params: {},
+    })
+
+    return
   }
   // TODO - do this using the OpenAPI spec for the command rather than
   // explicitly encoding the property names
@@ -209,55 +215,42 @@ async function cli(args: ParsedArgs) {
     })
   }
 
-  const seam = await getSeam()
-
   const apiPath = `/${selectedCommand.join("/").replace(/-/g, "_")}`
 
   if (apiPath.includes("/events/list") && params.between) {
     delete params.since
   }
 
-  console.log(`\n\n${chalk.green(apiPath)}`)
-  console.log(`Request Params:`)
-  console.log(params)
-
-  const response = await seam.client.post(apiPath, params, {
-    validateStatus: () => true,
+  const response = await RequestSeamApi({
+    path: apiPath,
+    params,
   })
 
-  logResponse(response)
-
-  if (response.data.connect_webview) {
-    if (
-      response.data &&
-      response.data.connect_webview &&
-      response.data.connect_webview.url
-    ) {
-      const url = response.data.connect_webview.url
-
-      if (process.env.INSIDE_WEB_BROWSER !== "1") {
-        const { action } = await prompts({
-          type: "confirm",
-          name: "action",
-          message: "Would you like to open the webview in your browser?",
-        })
-
-        if (action) {
-          const { default: open } = await import("open")
-          await open(url)
-        }
-      } else {
-        //TODO: Figure out how to open the webview in the browser
-      }
-    }
+  if (response.data?.connect_webview) {
+    await handleConnectWebviewResponse(response.data.connect_webview)
   }
 
-  if (
-    response.data &&
-    typeof response.data === "object" &&
-    "action_attempt" in response.data
-  ) {
+  if (response.data?.action_attempt) {
     interactForActionAttemptPoll(response.data.action_attempt)
+  }
+}
+
+const handleConnectWebviewResponse = async (connect_webview: any) => {
+  const url = connect_webview.url
+
+  if (process.env.INSIDE_WEB_BROWSER !== "1") {
+    const { action } = await prompts({
+      type: "confirm",
+      name: "action",
+      message: "Would you like to open the webview in your browser?",
+    })
+
+    if (action) {
+      const { default: open } = await import("open")
+      await open(url)
+    }
+  } else {
+    //TODO: Figure out how to open the webview in the browser
   }
 }
 

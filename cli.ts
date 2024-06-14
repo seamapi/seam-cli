@@ -17,7 +17,7 @@ import { version } from "./package.json"
 import { interactForUseRemoteApiDefs } from "./lib/interact-for-use-remote-api-defs"
 import { randomBytes } from "node:crypto"
 import { interactForActionAttemptPoll } from "./lib/interact-for-action-attempt-poll"
-import { makeSeamApiRequest } from "./lib/util/make-seam-api-request"
+import { RequestSeamApi } from "./lib/util/request-seam-api"
 
 const sections = [
   {
@@ -178,7 +178,7 @@ async function cli(args: ParsedArgs) {
     await interactForServerSelection()
     return
   } else if (isEqual(selectedCommand, ["health", "get-health"])) {
-    await makeSeamApiRequest({
+    await RequestSeamApi({
       path: "/health/get_health",
       params: {},
     })
@@ -221,7 +221,7 @@ async function cli(args: ParsedArgs) {
     delete params.since
   }
 
-  const response = await makeSeamApiRequest({
+  const response = await RequestSeamApi({
     path: apiPath,
     params,
   })

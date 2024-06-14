@@ -2,7 +2,7 @@ import type { AxiosResponse } from "axios"
 import chalk from "chalk"
 import { getSeam } from "../get-seam"
 
-export const makeSeamApiRequest = async ({
+export const RequestSeamApi = async ({
   path,
   params,
 }: {
@@ -38,4 +38,4 @@ const logRequest = (apiPath: string, params: Record<string, any>) => {
   console.log(params)
 }
 
-export default makeSeamApiRequest
+export default RequestSeamApi

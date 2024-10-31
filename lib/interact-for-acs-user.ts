@@ -1,6 +1,7 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
 import { interactForAcsSystem } from "./interact-for-acs-system"
+import { withLoading } from "./util/with-loading"
 
 export const interactForAcsUser = async () => {
   const seam = await getSeam()
@@ -9,9 +10,11 @@ export const interactForAcsUser = async () => {
     "What acs_system does the acs_user belong to?"
   )
 
-  const users = await seam.acs.users.list({
-    acs_system_id,
-  })
+  const users = await withLoading("Fetching ACS users...", () =>
+    seam.acs.users.list({
+      acs_system_id,
+    })
+  )
 
   const { acsUserId } = await prompts({
     name: "acsUserId",

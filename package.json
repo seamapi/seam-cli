@@ -56,7 +56,6 @@
     "@seamapi/http": "^0.34.1",
     "@seamapi/types": "^1.287.3",
     "open": "^10.0.3",
-    "ora": "^8.1.0",
     "swagger-parser": "^10.0.3"
   }
 }

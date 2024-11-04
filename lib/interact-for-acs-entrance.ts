@@ -1,13 +1,10 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
-import { withLoading } from "./util/with-loading"
 
 export const interactForAcsEntrance = async () => {
   const seam = await getSeam()
 
-  const entrances = await withLoading("Fetching ACS entrances...", () =>
-    seam.acs.entrances.list()
-  )
+  const entrances = await seam.acs.entrances.list()
 
   const { acsEntranceId } = await prompts({
     name: "acsEntranceId",

@@ -1,13 +1,10 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
-import { withLoading } from "./util/with-loading"
 
 export const interactForUserIdentity = async () => {
   const seam = await getSeam()
 
-  const uis = await withLoading("Fetching user identities...", () =>
-    seam.userIdentities.list()
-  )
+  const uis = await seam.userIdentities.list()
 
   const { userIdentityId } = await prompts({
     name: "userIdentityId",

@@ -1,7 +1,6 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
 import { interactForDevice } from "./interact-for-device"
-import { withLoading } from "./util/with-loading"
 
 export const interactForAccessCode = async ({
   device_id,
@@ -14,11 +13,9 @@ export const interactForAccessCode = async ({
     device_id = await interactForDevice()
   }
 
-  const accessCodes = await withLoading("Fetching access codes...", () =>
-    seam.accessCodes.list({
-      device_id,
-    })
-  )
+  const accessCodes = await seam.accessCodes.list({
+    device_id,
+  })
 
   const { accessCodeId } = await prompts({
     name: "accessCodeId",

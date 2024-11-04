@@ -1,7 +1,6 @@
 import type { AxiosResponse } from "axios"
 import chalk from "chalk"
 import { getSeam } from "../get-seam"
-import { withLoading } from "./with-loading"
 
 export const RequestSeamApi = async ({
   path,
@@ -14,11 +13,9 @@ export const RequestSeamApi = async ({
 
   logRequest(path, params)
 
-  const response = await withLoading("Making request...", () =>
-    seam.client.post(path, params, {
-      validateStatus: () => true,
-    })
-  )
+  const response = await seam.client.post(path, params, {
+    validateStatus: () => true,
+  })
 
   logResponse(response)
 

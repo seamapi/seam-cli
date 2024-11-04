@@ -1,7 +1,6 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
 import { interactForAcsSystem } from "./interact-for-acs-system"
-import { withLoading } from "./util/with-loading"
 
 export const interactForCredentialPool = async () => {
   const seam = await getSeam()
@@ -10,13 +9,9 @@ export const interactForCredentialPool = async () => {
     "What acs_system does the credential pool belong to?"
   )
 
-  const credentialPools = await withLoading(
-    "Fetching ACS credential pools...",
-    () =>
-      seam.acs.credentialPools.list({
-        acs_system_id,
-      })
-  )
+  const credentialPools = await seam.acs.credentialPools.list({
+    acs_system_id,
+  })
 
   const { credentialPoolId } = await prompts({
     name: "credentialPoolId",

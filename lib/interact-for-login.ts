@@ -12,7 +12,9 @@ export const interactForLogin = async () => {
       `You're using a local Seam Connect instance, you can enter the API Key to your local user, you can create a new user from:\n\n${getServer()}/admin/create_user_with_api_key`
     )
   } else {
-    console.log(`To login, navigate to your workspace settings, go to Personal Access Token (PAT), and paste the PAT in the provided box: https://console.seam.co\n\n`)
+    console.log(
+      `To login, navigate to your workspace settings, go to Personal Access Token (PAT), and paste the PAT in the provided box: https://console.seam.co\n\n`
+    )
   }
 
   console.log(

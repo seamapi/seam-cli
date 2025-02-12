@@ -10,7 +10,11 @@ export const getApiDefinitions = async (
   useRemoteDefinitions: boolean
 ): Promise<ApiDefinitions> => {
   const schema = await getSchema(useRemoteDefinitions)
-  return SwaggerParser.dereference(schema as unknown as OpenAPI.Document)
+  const filteredSchema = filterSchemaPaths(schema)
+
+  return SwaggerParser.dereference(
+    filteredSchema as unknown as OpenAPI.Document
+  )
 }
 
 const getSchema = async (
@@ -19,4 +23,19 @@ const getSchema = async (
   if (!useRemoteDefinitions) return openapi
   const endpoint = getServer()
   return getOpenapiSchema(endpoint)
+}
+
+function filterSchemaPaths(schema: typeof openapi): typeof openapi {
+  const filteredPaths = Object.fromEntries(
+    Object.entries(schema.paths).filter(([path, pathSchema]) => {
+      if (path.startsWith("/seam")) return false
+
+      const isPathUndocumented =
+        pathSchema.post && (pathSchema.post as any)?.["x-undocumented"] != null
+      if (isPathUndocumented) return false
+
+      return true
+    })
+  )
+  return { ...schema, paths: filteredPaths } as typeof openapi
 }

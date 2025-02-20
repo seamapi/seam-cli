@@ -1,11 +1,14 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
 import { getConfigStore } from "./get-config-store"
+import { withLoading } from "./util/with-loading"
 export const interactForConnectedAccount = async () => {
   const seam = await getSeam()
 
-  const connected_accounts = await seam.connectedAccounts.list()
-
+  const connected_accounts = await withLoading(
+    "Fetching connected accounts...",
+    () => seam.connectedAccounts.list()
+  )
   const { connectedAccountId } = await prompts({
     name: "connectedAccountId",
     type: "autocomplete",

@@ -1,6 +1,7 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
 import { ActionAttemptsGetResponse } from "@seamapi/http/connect"
+import { withLoading } from "./util/with-loading"
 
 export const interactForActionAttemptPoll = async (
   action_attempt: ActionAttemptsGetResponse["action_attempt"]
@@ -19,11 +20,14 @@ export const interactForActionAttemptPoll = async (
       const seam = await getSeam()
       const { action_attempt_id } = action_attempt
 
-      const updated_action_attempt = await seam.actionAttempts.get(
-        { action_attempt_id },
-        { waitForActionAttempt: { pollingInterval: 240, timeout: 10_000 } }
+      const updated_action_attempt = await withLoading(
+        "Polling action attempt...",
+        () =>
+          seam.actionAttempts.get(
+            { action_attempt_id },
+            { waitForActionAttempt: { pollingInterval: 240, timeout: 10_000 } }
+          )
       )
-
       console.dir(updated_action_attempt, { depth: null })
     }
   }

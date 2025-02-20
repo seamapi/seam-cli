@@ -1,11 +1,13 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
+import { withLoading } from "./util/with-loading"
 
 export const interactForAcsSystem = async (message?: string) => {
   const seam = await getSeam()
 
-  const systems = await seam.acs.systems.list()
-
+  const systems = await withLoading("Fetching ACS systems...", () =>
+    seam.acs.systems.list()
+  )
   const { acsSystemId } = await prompts({
     name: "acsSystemId",
     type: "autocomplete",

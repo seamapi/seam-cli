@@ -1,11 +1,13 @@
 import prompts from "prompts"
 import { getSeam } from "./get-seam"
 import { getConfigStore } from "./get-config-store"
+import { withLoading } from "./util/with-loading"
 export const interactForDevice = async () => {
   const seam = await getSeam()
 
-  const devices = await seam.devices.list()
-
+  const devices = await withLoading("Fetching devices...", () =>
+    seam.devices.list()
+  )
   const { deviceId } = await prompts({
     name: "deviceId",
     type: "autocomplete",

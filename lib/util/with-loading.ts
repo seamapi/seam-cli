@@ -6,7 +6,6 @@ export const withLoading = async <T>(
 ): Promise<T> => {
   const spinner = createSpinner(message).start()
   try {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
     const result = await fn()
     spinner.success()
     return result

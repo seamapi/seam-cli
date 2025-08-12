@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
       - name: Install ldid
         run: |
           sudo apt-get update
-          sudo apt-get install -y libssl-dev libplist-dev=2.2.0-3
+          sudo apt-get install -y libssl-dev libplist-dev
           git clone https://github.com/sbingner/ldid.git
           make -C ldid
           sudo cp -f ./ldid/ldid /usr/local/bin/

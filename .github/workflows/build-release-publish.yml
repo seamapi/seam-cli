@@ -26,7 +26,7 @@ jobs:
       - name: Install ldid
         run: |
           sudo apt-get update
-          sudo apt-get install -y libssl-dev libplist-dev
+          sudo apt-get install -y libssl-dev libplist-dev=2.2.0-3
           git clone https://github.com/sbingner/ldid.git
           make -C ldid
           sudo cp -f ./ldid/ldid /usr/local/bin/

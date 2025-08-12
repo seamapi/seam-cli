@@ -88,19 +88,15 @@ export const interactForOpenApiObject = async (
         : []),
       ...Object.keys(properties)
         .map((k) => {
-          let propDesc = (properties[k] as any)?.description ?? ""
           return {
             title: k + (required.includes(k) ? "*" : ""),
             value: k,
             description:
               args.params[k] !== undefined
                 ? typeof args.params[k] === "object"
-                  ? `${ellipsis(
-                      JSON.stringify(args.params[k]),
-                      60
-                    )} ${propDesc}`
-                  : `[${args.params[k]}] ${propDesc}`
-                : propDesc,
+                  ? ellipsis(JSON.stringify(args.params[k]), 60)
+                  : `[${args.params[k]}]`
+                : undefined,
           }
         })
         .sort((a, b) => propSortScore(b.value) - propSortScore(a.value)),

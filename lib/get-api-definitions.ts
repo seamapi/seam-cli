@@ -27,15 +27,17 @@ const getSchema = async (
 
 function filterSchemaPaths(schema: typeof openapi): typeof openapi {
   const filteredPaths = Object.fromEntries(
-    Object.entries(schema.paths).filter(([path, pathSchema]) => {
-      if (path.startsWith("/seam")) return false
+    Object.entries(schema.paths as Record<string, any>).filter(
+      ([path, pathSchema]) => {
+        if (path.startsWith("/seam")) return false
 
-      const isPathUndocumented =
-        pathSchema.post && (pathSchema.post as any)?.["x-undocumented"] != null
-      if (isPathUndocumented) return false
+        const isPathUndocumented =
+          pathSchema.post && pathSchema.post?.["x-undocumented"] != null
+        if (isPathUndocumented) return false
 
-      return true
-    })
+        return true
+      }
+    )
   )
   return { ...schema, paths: filteredPaths } as typeof openapi
 }

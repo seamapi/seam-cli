@@ -254,7 +254,7 @@ const handleConnectWebviewResponse = async (connect_webview: any) => {
   }
 }
 
-cli(parseArgs(process.argv.slice(2))).catch((e) => {
+cli(parseArgs(process.argv.slice(2), { string: ["code"] })).catch((e) => {
   console.log(chalk.red(`CLI Error: ${e.toString()}\n${e.stack}`))
   if (e.toString().includes("object Object")) {
     console.log(e)
